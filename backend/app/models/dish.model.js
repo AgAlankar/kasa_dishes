@@ -76,6 +76,50 @@ class Dish {
             result(null, res);
         });
     }
+    static getFiltered(filters,result){
+        let query = "SELECT * FROM dish";
+        if(filters.length > 0){
+            query+=" WHERE ";
+            let conds = [];
+            if(filters.dname != NULL){
+                conds.push(`dname LIKE '%${filters.dname}%'`);
+            }
+            if(filters.veg != NULL){
+                conds.push(`veg=${filters.veg}`);
+            }
+            if(filters.category != NULL){
+                conds.push(`category LIKE '%${filters.category}%'`);
+            }
+            if(filters.maxexp != NULL){
+                conds.push(`expertise < ${filters.maxexp}`);
+            }
+            if(filters.maxprep != NULL){
+                conds.push(`preptime < ${filters.maxprep}`);
+            }
+            if(filters.maxcal != NULL){
+                conds.push(`calories < ${filters.maxcal}`);
+            }
+            if(filters.maxfat != NULL){
+                conds.push(`fats < ${filters.maxfat}`);
+            }
+            if(filters.maxprot != NULL){
+                conds.push(`proteins < ${filters.maxprot}`);
+            }
+            if(filters.maxcarb != NULL){
+                conds.push(`carbs < ${filters.maxcarb}`);
+            }
+            query += conds.join(" AND ");
+        }
+        sql.query(query, (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            console.log("dish: ", res);
+            result(null, res);
+        });
+    }
     static getAllVeg(result) {
         sql.query("SELECT * FROM dish WHERE veg=true", (err, res) => {
             if (err) {
