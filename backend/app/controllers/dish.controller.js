@@ -10,7 +10,7 @@ function create(req, res) {
   // Create a Dish
   let _dish = {};
   for (let field of Dish.fillableFields) {
-    _dish[field] = req.body[field];
+    _dish[field] = req.body.dish[field];
   }
   const dish = new Dish(_dish);
   // console.log(dish);
@@ -27,6 +27,17 @@ function create(req, res) {
 function findAll(req, res) {
   const title = req.query.title;
   Dish.getAll(title, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving dishes."
+      });
+    else res.send(data);
+  });
+}
+function findFiltered(req,res){
+  const filters = req.body.filters;
+  Dish.getFiltered(filters, (err, data) => {
     if (err)
       res.status(500).send({
         message:
@@ -113,4 +124,4 @@ function delAll(req, res) {
   });
 }
 
-module.exports = { create, findAll, findOne, findAllVeg, update, del, delAll };
+module.exports = { create, findAll, findFiltered, findOne, findAllVeg, update, del, delAll };
