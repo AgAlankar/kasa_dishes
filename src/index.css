@@ -198,7 +198,7 @@ Error
 }
 /* 
 ====== 
-dishes List 
+Cocktails List 
 ======
 */
 
@@ -213,7 +213,7 @@ dishes List
   margin-bottom: 3.5rem;
   margin-top: 1rem;
 }
-.dishes-center {
+.cocktails-center {
   width: var(--smallWidth);
   margin: 0 auto;
   max-width: var(--fullWidth);
@@ -223,17 +223,17 @@ dishes List
   /* align-items: start; */
 }
 @media screen and (min-width: 576px) {
-  .dishes-center {
+  .cocktails-center {
     grid-template-columns: repeat(auto-fill, minmax(338.8px, 1fr));
   }
 }
 /* 
 ====== 
-dish 
+Cocktail 
 ======
 */
 
-.dish {
+.cocktail {
   background: var(--mainWhite);
   margin-bottom: 2rem;
   box-shadow: var(--lightShadow);
@@ -242,27 +242,27 @@ dish
   grid-template-rows: auto 1fr;
   border-radius: var(--mainBorderRadius);
 }
-.dish:hover {
+.cocktail:hover {
   box-shadow: var(--darkShadow);
 }
-.dish img {
+.cocktail img {
   height: 20rem;
   object-fit: cover;
   border-top-left-radius: var(--mainBorderRadius);
   border-top-right-radius: var(--mainBorderRadius);
 }
-.dish-footer {
+.cocktail-footer {
   padding: 1.5rem;
 }
-.dish-footer h3,
-.dish-footer h4,
-.dish-footer p {
+.cocktail-footer h3,
+.cocktail-footer h4,
+.cocktail-footer p {
   margin-bottom: 0.3rem;
 }
-.dish-footer h3 {
+.cocktail-footer h3 {
   font-size: 2rem;
 }
-.dish-footer p {
+.cocktail-footer p {
   color: var(--darkGrey);
   margin-bottom: 0.5rem;
 }
@@ -305,47 +305,47 @@ Form
 }
 /* 
 ====== 
-dish
+Cocktail
 ======
 */
 
-.dish-section {
+.cocktail-section {
   text-align: center;
 }
-.food {
+.drink {
   width: var(--smallWidth);
   max-width: var(--fullWidth);
   margin: 0 auto;
   text-align: left;
 }
-.food img {
+.drink img {
   border-radius: var(--mainBorderRadius);
 }
-.food p {
+.drink p {
   font-weight: bold;
   text-transform: capitalize;
   line-height: 1.8;
 }
-.food span {
+.drink span {
   margin-right: 0.5rem;
 }
-.food-data {
+.drink-data {
   background: var(--primaryLightColor);
   padding: 0.25rem 0.5rem;
   border-radius: var(--mainBorderRadius);
   color: var(--primaryColor);
 }
-.food-info {
+.drink-info {
   padding-top: 2rem;
 }
 @media screen and (min-width: 992px) {
-  .food {
+  .drink {
     display: grid;
     grid-template-columns: 2fr 3fr;
     gap: 3rem;
     align-items: center;
   }
-  .food-info {
+  .drink-info {
     padding-top: 0;
   }
 }

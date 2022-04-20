@@ -8,7 +8,7 @@ export default function SearchForm() {
     searchValue.current.focus()
   }, [])
 
-  function searchDish() {
+  function searchCocktail() {
     setSearchTerm(searchValue.current.value)
   }
   function handleSubmit(e) {
@@ -18,13 +18,13 @@ export default function SearchForm() {
     <section className='section search'>
       <form className='search-form' onSubmit={handleSubmit}>
         <div className='form-control'>
-          <label htmlFor='name'>search your favorite Dish</label>
+          <label htmlFor='name'>search your favorite cocktail</label>
           <input
             type='text'
             name='name'
             id='name'
             ref={searchValue}
-            onChange={searchDish}
+            onChange={searchCocktail}
           />
         </div>
       </form>

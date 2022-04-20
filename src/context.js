@@ -1,37 +1,37 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useCallback } from 'react'
 
-const url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
+const url = 'http://localhost:8080/api/dishes/'
 const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('a')
-  const [dishes, setDishes] = useState([])
+  const [searchTerm, setSearchTerm] = useState('')
+  const [cocktails, setCocktails] = useState([])
 
-  const fetchFood = useCallback(async () => {
+  const fetchDrinks = useCallback(async () => {
     setLoading(true)
     try {
-      const response = await fetch(`${url}${searchTerm}`)
+      const response = await fetch(`${url}`)
       const data = await response.json()
       console.log(data)
-      const { food } = data
-      if (food) {
-        const newDishes = food.map((item) => {
-          const { idDrink, strDrink, strDrinkThumb, strAlcoholic, strGlass } =
-            item
+      const drinks = data
+      if (drinks) {
+        const newCocktails = drinks.map((item) => {
+          const { FID, dname, ImageURL, Veg, Expertise } = item
 
           return {
-            id: idDrink,
-            name: strDrink,
-            image: strDrinkThumb,
-            info: strAlcoholic,
-            glass: strGlass,
+            id: FID,
+            name: dname,
+            image: ImageURL,
+            info: Expertise,
+            glass: Veg ? 'Veg' : 'Non-Veg',
           }
         })
-        setDishes(newDishes)
+        console.log(newCocktails)
+        setCocktails(newCocktails)
       } else {
-        setDishes([])
+        setCocktails([])
       }
       setLoading(false)
     } catch (error) {
@@ -40,10 +40,12 @@ const AppProvider = ({ children }) => {
     }
   }, [searchTerm])
   useEffect(() => {
-    fetchFood()
-  }, [searchTerm, fetchFood])
+    fetchDrinks()
+  }, [searchTerm, fetchDrinks])
   return (
-    <AppContext.Provider value={{ loading, dishes, searchTerm, setSearchTerm }}>
+    <AppContext.Provider
+      value={{ loading, cocktails, searchTerm, setSearchTerm }}
+    >
       {children}
     </AppContext.Provider>
   )
