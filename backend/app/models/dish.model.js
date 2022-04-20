@@ -9,22 +9,13 @@ class Dish {
     static allFields = Dish.fillableFields.concat([
         'fid','views'
     ]);
+
     constructor(dish) {
-        // this.dname = dish.dname;
-        // this.veg = dish.veg;
-        // this.category = dish.category;
-        // this.expertise = dish.expertise;
-        // this.preptime = dish.preptime;
-        // this.imageurl = dish.imageurl;
-        // this.recipeurl = dish.recipeurl;
-        // this.calories = dish.calories;
-        // this.fats = dish.fats;
-        // this.proteins = dish.proteins;
-        // this.carbs = dish.carbs;
         for (let field of Dish.fillableFields) {
             this[field] = dish[field];
         }
     }
+
     static create(newDish, result) {
         for(let k of Object.keys(newDish)){
             if(isNaN(parseInt(newDish[k])) && isNaN(parseFloat(newDish[k]))){
@@ -45,6 +36,7 @@ class Dish {
                 result(null, { fid: res.insertId, ...newDish });
             });
     }
+
     static findById(fid, result) {
         sql.query(`SELECT * FROM dish WHERE fid = ${fid}`, (err, res) => {
             if (err) {
@@ -61,6 +53,7 @@ class Dish {
             result({ kind: "not_found" }, null);
         });
     }
+
     static getAll(dname, result) {
         let query = "SELECT * FROM dish";
         if (dname) {
@@ -76,40 +69,45 @@ class Dish {
             result(null, res);
         });
     }
+
     static getFiltered(filters,result){
         let query = "SELECT * FROM dish";
-        if(filters.length > 0){
+        if(Object.keys(filters).length > 0){
             query+=" WHERE ";
             let conds = [];
-            if(filters.dname != NULL){
+            if(filters.dname != undefined){
                 conds.push(`dname LIKE '%${filters.dname}%'`);
             }
-            if(filters.veg != NULL){
+            if(filters.cuisine != undefined){
+                conds.push(`cuisine LIKE '%${filters.cuisine}%'`);
+            }
+            if(filters.veg != undefined){
                 conds.push(`veg=${filters.veg}`);
             }
-            if(filters.category != NULL){
+            if(filters.category != undefined){
                 conds.push(`category LIKE '%${filters.category}%'`);
             }
-            if(filters.maxexp != NULL){
+            if(filters.maxexp != undefined){
                 conds.push(`expertise < ${filters.maxexp}`);
             }
-            if(filters.maxprep != NULL){
+            if(filters.maxprep != undefined){
                 conds.push(`preptime < ${filters.maxprep}`);
             }
-            if(filters.maxcal != NULL){
+            if(filters.maxcal != undefined){
                 conds.push(`calories < ${filters.maxcal}`);
             }
-            if(filters.maxfat != NULL){
+            if(filters.maxfat != undefined){
                 conds.push(`fats < ${filters.maxfat}`);
             }
-            if(filters.maxprot != NULL){
+            if(filters.maxprot != undefined){
                 conds.push(`proteins < ${filters.maxprot}`);
             }
-            if(filters.maxcarb != NULL){
+            if(filters.maxcarb != undefined){
                 conds.push(`carbs < ${filters.maxcarb}`);
             }
             query += conds.join(" AND ");
         }
+        console.log(query);
         sql.query(query, (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -120,6 +118,7 @@ class Dish {
             result(null, res);
         });
     }
+
     static getAllVeg(result) {
         sql.query("SELECT * FROM dish WHERE veg=true", (err, res) => {
             if (err) {
@@ -131,6 +130,7 @@ class Dish {
             result(null, res);
         });
     }
+
     static updateById(fid, field, newVal, result) {
         sql.query(
             `UPDATE dish SET ${field} = ${newVal} WHERE fid = ${fid}`,
@@ -150,6 +150,7 @@ class Dish {
             }
         );
     }
+
     static remove(fid, result) {
         sql.query("DELETE FROM dish WHERE fid = ?", fid, (err, res) => {
             if (err) {
@@ -166,6 +167,7 @@ class Dish {
             result(null, res);
         });
     }
+    
     static removeAll(result) {
         sql.query("DELETE FROM dish", (err, res) => {
             if (err) {

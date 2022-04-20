@@ -1,28 +1,29 @@
 const Dish = require("../models/dish.model");
+const Ingredients = require("../models/ingredients.model");
 
 function create(req, res) {
-  // Validate request
-  if (!req.body) {
+// Validate request
+    if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!"
+        message: "Content can not be empty!"
     });
-  }
-  // Create a Dish
-  let _dish = {};
-  for (let field of Dish.fillableFields) {
-    _dish[field] = req.body[field];
-  }
-  const dish = new Dish(_dish);
-  // console.log(dish);
-  // Save Dish in the database
-  Dish.create(dish, (err, data) => {
+    }
+    // Create a Dish
+    let _dish = {};
+    for (let field of Dish.fillableFields) {
+        _dish[field] = req.body.dish[field];
+    }
+    const dish = new Dish(_dish);
+    // console.log(dish);
+    // Save Dish in the database
+    Dish.create(dish, (err, data) => {
     if (err)
-      res.status(500).send({
+        res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Dish."
-      });
+            err.message || "Some error occurred while creating the Dish."
+        });
     else res.send(data);
-  });
+    });
 }
 function findAll(req, res) {
   const title = req.query.title;
