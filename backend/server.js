@@ -1,7 +1,12 @@
 const express = require("express");
 const cors = require("cors");
 const dishroutes = require("./app/routes/dish.routes");
+const userroute = require("./app/routes/user.routes");
+const adminroute = require("./app/routes/admin.routes")
+const askroute = require("./app/routes/ask.routes")
+
 const ingredientsroutes = require("./app/routes/ingredients.routes");
+
 const app = express();
 const whitelist = ["http://localhost:3000"];
 const corsOptions = {
@@ -26,6 +31,9 @@ app.use(express.urlencoded({ extended: true }));
 // });
 
 dishroutes(app);
+userroute(app);
+adminroute(app);
+askroute(app);
 ingredientsroutes(app);
 
 // set port, listen for requests
