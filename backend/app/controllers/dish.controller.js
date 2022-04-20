@@ -35,6 +35,17 @@ function findAll(req, res) {
     else res.send(data);
   });
 }
+function findFiltered(req,res){
+  const filters = req.body.filters;
+  Dish.getFiltered(filters, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving dishes."
+      });
+    else res.send(data);
+  });
+}
 function findOne(req, res) {
   Dish.findById(req.params.id, (err, data) => {
     if (err) {
@@ -113,4 +124,4 @@ function delAll(req, res) {
   });
 }
 
-module.exports = { create, findAll, findOne, findAllVeg, update, del, delAll };
+module.exports = { create, findAll, findFiltered, findOne, findAllVeg, update, del, delAll };
