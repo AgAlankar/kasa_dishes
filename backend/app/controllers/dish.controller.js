@@ -51,7 +51,7 @@ function findOne(req, res) {
   });
 }
 function findAllVeg(req, res) {
-  Dish.getAllPublished((err, data) => {
+  Dish.getAllVeg((err, data) => {
     if (err)
       res.status(500).send({
         message:

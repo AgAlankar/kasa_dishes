@@ -41,12 +41,12 @@ class Dish {
                     result(err, null);
                     return;
                 }
-                console.log("created dish: ", { id: res.insertId, ...newDish });
-                result(null, { id: res.insertId, ...newDish });
+                console.log("created dish: ", { fid: res.insertId, ...newDish });
+                result(null, { fid: res.insertId, ...newDish });
             });
     }
-    static findById(id, result) {
-        sql.query(`SELECT * FROM dish WHERE id = ${id}`, (err, res) => {
+    static findById(fid, result) {
+        sql.query(`SELECT * FROM dish WHERE fid = ${fid}`, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
@@ -57,7 +57,7 @@ class Dish {
                 result(null, res[0]);
                 return;
             }
-            // not found Dish with the id
+            // not found Dish with the fid
             result({ kind: "not_found" }, null);
         });
     }
@@ -87,9 +87,9 @@ class Dish {
             result(null, res);
         });
     }
-    static updateById(id, field, newVal, result) {
+    static updateById(fid, field, newVal, result) {
         sql.query(
-            `UPDATE dish SET ${field} = ${newVal} WHERE id = ${id}`,
+            `UPDATE dish SET ${field} = ${newVal} WHERE fid = ${fid}`,
             (err, res) => {
                 if (err) {
                     console.log("error: ", err);
@@ -97,28 +97,28 @@ class Dish {
                     return;
                 }
                 if (res.affectedRows === 0) {
-                    // not found Dish with the id
+                    // not found Dish with the fid
                     result({ kind: "not_found" }, null);
                     return;
                 }
-                console.log("updated dish: ", { id: id, field: field, newVal: newVal });
-                result(null, { id: id, field: field, newVal: newVal });
+                console.log("updated dish: ", { fid: fid, field: field, newVal: newVal });
+                result(null, { fid: fid, field: field, newVal: newVal });
             }
         );
     }
-    static remove(id, result) {
-        sql.query("DELETE FROM dish WHERE id = ?", id, (err, res) => {
+    static remove(fid, result) {
+        sql.query("DELETE FROM dish WHERE fid = ?", fid, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(null, err);
                 return;
             }
             if (res.affectedRows === 0) {
-                // not found Dish with the id
+                // not found Dish with the fid
                 result({ kind: "not_found" }, null);
                 return;
             }
-            console.log("deleted dish with id: ", id);
+            console.log("deleted dish with fid: ", fid);
             result(null, res);
         });
     }
