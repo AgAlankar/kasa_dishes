@@ -2,7 +2,7 @@ const sql = require("./db.js");
 // constructor
 class Dish {
     static fillableFields = [
-        'dname', 'veg', 'category', 'expertise',
+        'dname', 'cuisine', 'veg', 'category', 'expertise',
         'preptime', 'imageurl', 'recipeurl', 'calories',
         'fats', 'proteins', 'carbs'
     ];
@@ -66,6 +66,54 @@ class Dish {
         if (dname) {
             query += ` WHERE dname LIKE '%${dname}%'`;
         }
+        sql.query(query, (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            console.log("dish: ", res);
+            result(null, res);
+        });
+    }
+    static getFiltered(filters,result){
+        let query = "SELECT * FROM dish";
+        if(Object.keys(filters).length > 0){
+            query+=" WHERE ";
+            let conds = [];
+            if(filters.dname != undefined){
+                conds.push(`dname LIKE '%${filters.dname}%'`);
+            }
+            if(filters.cuisine != undefined){
+                conds.push(`cuisine LIKE '%${filters.cuisine}%'`);
+            }
+            if(filters.veg != undefined){
+                conds.push(`veg=${filters.veg}`);
+            }
+            if(filters.category != undefined){
+                conds.push(`category LIKE '%${filters.category}%'`);
+            }
+            if(filters.maxexp != undefined){
+                conds.push(`expertise < ${filters.maxexp}`);
+            }
+            if(filters.maxprep != undefined){
+                conds.push(`preptime < ${filters.maxprep}`);
+            }
+            if(filters.maxcal != undefined){
+                conds.push(`calories < ${filters.maxcal}`);
+            }
+            if(filters.maxfat != undefined){
+                conds.push(`fats < ${filters.maxfat}`);
+            }
+            if(filters.maxprot != undefined){
+                conds.push(`proteins < ${filters.maxprot}`);
+            }
+            if(filters.maxcarb != undefined){
+                conds.push(`carbs < ${filters.maxcarb}`);
+            }
+            query += conds.join(" AND ");
+        }
+        console.log(query);
         sql.query(query, (err, res) => {
             if (err) {
                 console.log("error: ", err);
