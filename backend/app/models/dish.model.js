@@ -2,7 +2,7 @@ const sql = require("./db.js");
 // constructor
 class Dish {
     static fillableFields = [
-        'dname', 'veg', 'category', 'expertise',
+        'dname', 'cuisine', 'veg', 'category', 'expertise',
         'preptime', 'imageurl', 'recipeurl', 'calories',
         'fats', 'proteins', 'carbs'
     ];
