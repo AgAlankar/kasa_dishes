@@ -1,6 +1,10 @@
 const express = require("express");
 const cors = require("cors");
-const routes = require("./app/routes/dish.routes");
+const dishroutes = require("./app/routes/dish.routes");
+const userroute = require("./app/routes/user.routes");
+const adminroute = require("./app/routes/admin.routes")
+const askroute = require("./app/routes/ask.routes")
+
 const app = express();
 const whitelist = ["http://localhost:3000"];
 const corsOptions = {
@@ -22,7 +26,10 @@ app.use(express.urlencoded({ extended: true }));
 // app.get("/", (req, res) => {
 //   res.json({ message: "Welcome to bezkoder application." });
 // });
-routes(app);
+dishroutes(app);
+userroute(app);
+adminroute(app);
+askroute(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
