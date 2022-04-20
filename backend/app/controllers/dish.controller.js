@@ -10,7 +10,7 @@ function create(req, res) {
   // Create a Dish
   let _dish = {};
   for (let field of Dish.fillableFields) {
-    _dish[field] = req.body[field];
+    _dish[field] = req.body.dish[field];
   }
   const dish = new Dish(_dish);
   // console.log(dish);
