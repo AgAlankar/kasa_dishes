@@ -50,7 +50,7 @@ class User {
     static delfav(favuser, result)
     {
         favuser.uname=`"${favuser.uname}"`;
-        let que = `Delete from FavLookup where uname=${favuser.uname} and fid=${favuser.fid})`;
+        let que = `Delete from FavLookup where uname=${favuser.uname} and fid=${favuser.fid}`;
         console.log(que);
         sql.query(que,
             (err, res) => {
@@ -60,7 +60,7 @@ class User {
                     return;
                 }
                 console.log("Deleted from fav: ",{...favuser});
-                result(null, res);
+                result(null, null);
             });
     }
 
