@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react'
 import { useCallback } from 'react'
 
-const url = 'http://localhost:8080/api/dishes/search'
+const url = 'http://localhost:8080/api/dishes/'
 const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
@@ -12,19 +12,20 @@ const AppProvider = ({ children }) => {
   const fetchDrinks = useCallback(async () => {
     setLoading(true)
     try {
-      const optbody = {
-        filters: {
-          maxexp: 3,
-        },
-      }
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
-        body: JSON.stringify(optbody),
-      }
-      const response = await fetch(`${url}`, options)
+      // const optbody = {
+      //   filters: {
+      //     maxexp: 3,
+      //   },
+      // }
+      // const options = {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json;charset=utf-8',
+      //   },
+      //   body: JSON.stringify(optbody),
+      // }
+      // const response = await fetch(`${url}`, options)
+      const response = await fetch(`${url}`);
       const data = await response.json()
       console.log(data)
       const drinks = data
