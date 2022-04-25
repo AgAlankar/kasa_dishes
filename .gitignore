@@ -1,8 +1,4 @@
 client/node_modules/
 backend/node_modules/
 node_modules
-src
-public
 backend/app/config/db.config.js
-package-lock.json
-package.json
