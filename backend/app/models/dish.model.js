@@ -88,22 +88,22 @@ class Dish {
                 conds.push(`category LIKE '%${filters.category}%'`);
             }
             if(filters.maxexp != undefined){
-                conds.push(`expertise < ${filters.maxexp}`);
+                conds.push(`expertise <= ${filters.maxexp}`);
             }
             if(filters.maxprep != undefined){
-                conds.push(`preptime < ${filters.maxprep}`);
+                conds.push(`preptime <= ${filters.maxprep}`);
             }
             if(filters.maxcal != undefined){
-                conds.push(`calories < ${filters.maxcal}`);
+                conds.push(`calories <= ${filters.maxcal}`);
             }
             if(filters.maxfat != undefined){
-                conds.push(`fats < ${filters.maxfat}`);
+                conds.push(`fats <= ${filters.maxfat}`);
             }
-            if(filters.maxprot != undefined){
-                conds.push(`proteins < ${filters.maxprot}`);
+            if(filters.minprot != undefined){
+                conds.push(`proteins >= ${filters.minprot}`);
             }
             if(filters.maxcarb != undefined){
-                conds.push(`carbs < ${filters.maxcarb}`);
+                conds.push(`carbs <= ${filters.maxcarb}`);
             }
             query += conds.join(" AND ");
         }
