@@ -43,16 +43,16 @@ export default function SearchForm() {
     if(prepVal.current.value !== ''){
       tempTerm['maxprep'] = prepVal.current.value;
     }
-    if(calVal.current.value !== ''){
+    if(calVal.current.value !== '' && !isNaN(parseFloat(calVal.current.value))){
       tempTerm['maxcal'] = calVal.current.value;
     }
-    if(fatVal.current.value !== ''){
+    if(fatVal.current.value !== '' && !isNaN(parseFloat(fatVal.current.value))){
       tempTerm['maxfat'] = fatVal.current.value;
     }
-    if(protVal.current.value !== ''){
+    if(protVal.current.value !== '' && !isNaN(parseFloat(protVal.current.value))){
       tempTerm['minprot'] = protVal.current.value;
     }
-    if(carbVal.current.value !== ''){
+    if(carbVal.current.value !== '' && !isNaN(parseFloat(carbVal.current.value))){
       tempTerm['maxcarb'] = carbVal.current.value;
     }
     setSearchTerm({...tempTerm})
@@ -92,7 +92,7 @@ export default function SearchForm() {
             <option value="1">Veg</option>
             <option value="0">Non-veg</option>
           </select>          
-          <label htmlFor='cat'>search your favorite dish</label>
+          <label htmlFor='cat'>Filter by category</label>
           <input
             type='text'
             name='cat'
