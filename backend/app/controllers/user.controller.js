@@ -93,4 +93,35 @@ function findallfav(req,res){
     });
 }
 
-module.exports = {create,mkfav,delfav,findallfav};
+
+function check(req,res){
+
+  if (!req.body) 
+  {
+      res.status(400).send({
+          message: "Content can not be empty!"
+      });
+  }
+  // create user
+  let _user={};
+  _user.uname=req.body.uname;
+  _user.pass=req.body.pass;
+  _user.email=req.body.email;
+  
+  const user= new User(_user);
+  User.check(user, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Some error occurred while adding new User."
+        });
+      else res.send(data);
+    });
+
+
+}
+
+
+
+
+module.exports = {create,mkfav,delfav,findallfav,check};

@@ -81,7 +81,27 @@ class User {
             });
     }
     
+    static check(newUser, result)
+    {
+        newUser.uname=`"${newUser.uname}"`;
+        newUser.pass=`"${newUser.pass}"`;
+        newUser.email=`"${newUser.email}"`;
 
+        let que = `select count(*) from Users where pass=${newUser.pass} and email=${newUser.email}`;
+        console.log(que);
+        sql.query(que,
+            (err, res) => {
+                if (err) {
+                    console.log("error: ", err);
+                    result(err, null);
+                    return;
+                }
+                const obj = {exists: res[0]["count(*)"]};
+                console.log("Users checked: ", obj);
+                result(null,obj);
+            });
+
+    }
 
 }
 

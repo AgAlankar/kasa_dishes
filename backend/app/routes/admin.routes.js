@@ -3,6 +3,7 @@ function routes(app){
     let router = require("express").Router();
     // Create a new User
     router.post("/",admin.create);
+    router.get("/check",admin.check);
     app.use('/api/admin',router);
 }
 
