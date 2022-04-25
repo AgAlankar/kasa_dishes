@@ -1,7 +1,7 @@
 import React from 'react'
 import { useGlobalContext } from '../context'
 export default function SearchForm() {
-  const { searchTerm, setSearchTerm } = useGlobalContext()
+  const { setSearchTerm } = useGlobalContext()
   const nameVal = React.useRef('')
   const cuisVal = React.useRef('')
   const vegVal = React.useRef('')
