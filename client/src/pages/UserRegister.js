@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 export default function Form() {
 
@@ -71,8 +71,14 @@ const handleSubmit = (event) => {
     }
 };
 
+
 // Showing success message
 const successMessage = () => {
+    if(submitted){
+    setTimeout(() => {
+        window.location.href = "http://localhost:3000/login"
+    }, 1000);
+    }
 	return (
 	<div
 		className="success"
@@ -80,8 +86,11 @@ const successMessage = () => {
 		display: submitted ? '' : 'none',
 		}}>
 		<h1>User {name} successfully registered!!</h1>
+        <br></br>
+        <h2>Redirecting..</h2>
 	</div>
 	);
+    
 };
 
 // Showing error message if error is true
