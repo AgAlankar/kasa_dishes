@@ -88,22 +88,22 @@ class Dish {
                 conds.push(`category LIKE '%${filters.category}%'`);
             }
             if(filters.maxexp != undefined){
-                conds.push(`expertise < ${filters.maxexp}`);
+                conds.push(`expertise <= ${filters.maxexp}`);
             }
             if(filters.maxprep != undefined){
-                conds.push(`preptime < ${filters.maxprep}`);
+                conds.push(`preptime <= ${filters.maxprep}`);
             }
             if(filters.maxcal != undefined){
-                conds.push(`calories < ${filters.maxcal}`);
+                conds.push(`calories <= ${filters.maxcal}`);
             }
             if(filters.maxfat != undefined){
-                conds.push(`fats < ${filters.maxfat}`);
+                conds.push(`fats <= ${filters.maxfat}`);
             }
-            if(filters.maxprot != undefined){
-                conds.push(`proteins < ${filters.maxprot}`);
+            if(filters.minprot != undefined){
+                conds.push(`proteins >= ${filters.minprot}`);
             }
             if(filters.maxcarb != undefined){
-                conds.push(`carbs < ${filters.maxcarb}`);
+                conds.push(`carbs <= ${filters.maxcarb}`);
             }
             query += conds.join(" AND ");
         }
@@ -177,6 +177,34 @@ class Dish {
             }
             console.log(`deleted ${res.affectedRows} dish`);
             result(null, res);
+        });
+    }
+    static searchByIngredients(ingr, result){
+        let query = `SELECT dname from dish d, madeof m, ingredients i WHERE d.fid = m.fid AND m.iid = i.iid AND i.iname IN (`;
+        console.log(ingr);
+        let size = ingr.length;
+        ingr.forEach(ing => {
+            ing = `'${ing}'`;
+            query = query + `${ing}`;
+            if(size > 1){
+                query = query + ",";
+            }
+            size--;
+        });
+        query = query + `) GROUP BY dname HAVING count(dname) = ${ingr.length};`;
+        sql.query(query, (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            } 
+            if (res.length) {
+                console.log("found dishes: \n", res);
+                result(null, res);
+                return;
+            }
+            console.log("No dish found with these ingredients");
+            result({kind : "not_found" }, null); 
         });
     }
 }

@@ -6,16 +6,14 @@ const AppContext = React.createContext()
 
 const AppProvider = ({ children }) => {
   const [loading, setLoading] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [cocktails, setCocktails] = useState([])
+  const [searchTerm, setSearchTerm] = useState({})
+  const [dishes, setDishes] = useState([])
 
-  const fetchDrinks = useCallback(async () => {
+  const fetchFood = useCallback(async () => {
     setLoading(true)
     try {
       const optbody = {
-        filters: {
-          maxexp: 3,
-        },
+        filters: {...searchTerm}
       }
       const options = {
         method: 'POST',
@@ -27,9 +25,9 @@ const AppProvider = ({ children }) => {
       const response = await fetch(`${url}`, options)
       const data = await response.json()
       console.log(data)
-      const drinks = data
-      if (drinks) {
-        const newCocktails = drinks.map((item) => {
+      const food = data
+      if (food) {
+        const newDishes = food.map((item) => {
           const { FID, dname, ImageURL, Expertise, Veg } = item
 
           return {
@@ -40,9 +38,9 @@ const AppProvider = ({ children }) => {
             glass: Veg ? 'Veg' : 'Non-Veg',
           }
         })
-        setCocktails(newCocktails)
+        setDishes(newDishes)
       } else {
-        setCocktails([])
+        setDishes([])
       }
       setLoading(false)
     } catch (error) {
@@ -51,12 +49,10 @@ const AppProvider = ({ children }) => {
     }
   }, [searchTerm])
   useEffect(() => {
-    fetchDrinks()
-  }, [fetchDrinks])
+    fetchFood()
+  }, [fetchFood])
   return (
-    <AppContext.Provider
-      value={{ loading, cocktails, searchTerm, setSearchTerm }}
-    >
+    <AppContext.Provider value={{ loading, dishes, searchTerm, setSearchTerm }}>
       {children}
     </AppContext.Provider>
   )
