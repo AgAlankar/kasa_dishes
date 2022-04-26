@@ -8,6 +8,7 @@ import Error from './pages/Error'
 // import components
 import Navbar from './components/Navbar'
 import AddDish from './pages/AddDish'
+import Requestform from './pages/Requestform'
 import Login from './pages/Login'
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
         </Route>
         <Route path='/cocktail/:id'>
           <SingleCocktail />
+        </Route>
+        <Route path='/Requestform'>
+          <Requestform />
         </Route>
         <Route path='/AddDish'>
           <AddDish />

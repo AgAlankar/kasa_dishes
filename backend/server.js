@@ -7,6 +7,7 @@ const askroute = require("./app/routes/ask.routes")
 
 const ingredientsroutes = require("./app/routes/ingredients.routes");
 
+
 const app = express();
 const whitelist = ["http://localhost:3000"];
 const corsOptions = {
