@@ -1,17 +1,14 @@
 const sql = require("./db.js");
 
-class Ingredients{
-    constructor(Ingredients){
-        this.IID = Ingredients.IID;
-        this.IName = Ingredients.IName;
-        this.restrictions = Ingredients.restrictions;
+class Equipments{
+    constructor(Equipments){
+        this.EID = Equipments.EID;
+        this.EName = Equipments.EName;
     }
-    static create(newIngredient, result){
-        newIngredient.IName = `"${newIngredient.IName}"`;
-        newIngredient.restrictions = `"${newIngredient.restrictions}"`;
+    static create(newEquipment, result){
+        newEquipment.EName = `"${newEquipment.EName}"`;
 
-        let Query = `INSERT INTO ingredients(IName, restrictions) VALUES
-            (${newIngredient.IName}, ${newIngredient.restrictions})`;
+        let Query = `INSERT INTO equipment (EName) VALUES(${newEquipment.EName})`;
         console.log(Query);
         sql.query(Query, (err, res) => {
             if(err) {
@@ -19,13 +16,13 @@ class Ingredients{
                 result(err, null);
                 return;
             }
-            console.log("Ingredient Created",res);
+            // console.log("Equipment Created",res);
             result(null, res);
         });    
     }
 
-    static madeOf(FID, IID){
-        let Query2 = `INSERT INTO madeof VALUES(${FID}, ${IID})`;
+    static madeUsing(FID, EID){
+        let Query2 = `INSERT INTO madeusing VALUES(${FID}, ${EID})`;
         console.log(Query2);
         sql.query(Query2, (err, res) => {
             if(err) {
@@ -40,11 +37,11 @@ class Ingredients{
     static findOne(name, result) {
         let query = "";
         if(isNaN(parseInt(name))){
-            query = `SELECT * FROM ingredients 
-                WHERE IName LIKE '%${name}%'`;
+            query = `SELECT * FROM equipment 
+                WHERE EName LIKE '%${name}%'`;
         } else {
-            query = `SELECT * FROM ingredients 
-                WHERE iid = ${name}`;
+            query = `SELECT * FROM equipment 
+                WHERE EID = ${name}`;
         }
         sql.query(query, (err, res) => {
             if (err) {
@@ -53,19 +50,19 @@ class Ingredients{
                 return;
             }
             if (res.length) {
-                console.log("found ingredient: ", res[0]);
+                console.log("found Equipment: ", res[0]);
                 result(null, res[0]);
                 return;
             }
-            // not found ingredient with the iid
+            // not found Equipment with the EID
             result({ kind: "not_found" }, null);
         });
     }
 
-    static getAll(IName, result) {
-        let query = "SELECT * FROM ingredients";
-        if (IName) {
-            query += ` WHERE IName LIKE '%${IName}%'`;
+    static getAll(EName, result) {
+        let query = "SELECT * FROM equipment";
+        if (EName) {
+            query += ` WHERE EName LIKE '%${EName}%'`;
         }
         sql.query(query, (err, res) => {
             if (err) {
@@ -73,22 +70,22 @@ class Ingredients{
                 result(null, err);
                 return;
             }
-            console.log("ingredients: ", res);
+            console.log("Equipments: ", res);
             result(null, res);
         });
     }
 
-    static remove(id, result) {
-        let query2 = `DELETE FROM ingredients WHERE IID = ${id}`;
-        let query1 = `DELETE FROM madeof WHERE IID = ${id}`;
+    static remove(name, result) {
+        let query1 = `DELETE FROM madeusing WHERE EID = ${name}`;
+        let query2 = `DELETE FROM equipment WHERE EID = ${name}`;
         sql.query(query1, (err, res) => {
             if (err) {
-                console.log("error: ", err);
+                console.log("error1: ", err);
                 result(null, err);
                 return;
             }
             if (res.affectedRows === 0) {
-                // not found ingredients with the IID
+                // not found Equipments with the EID
                 result({ kind: "not_found" }, null);
                 return;
             } else {
@@ -99,11 +96,11 @@ class Ingredients{
                         return;
                     }
                     if (res.affectedRows === 0) {
-                        // not found ingredient with the IID
+                        // not found Equipments with the EID
                         result({ kind: "not_found" }, null);
                         return;
                     }
-                    console.log(`deleted ingredient with ID: ${id}`);
+                    console.log(`deleted Equipments with ID: ${name}`);
                     result(null, res);
                 });
             }
@@ -111,16 +108,24 @@ class Ingredients{
     }
 
     static removeAll(result) {
-        sql.query("DELETE FROM ingredients", (err, res) => {
+        sql.query("DELETE FROM madeusing", (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(null, err);
                 return;
+            } else {
+                sql.query("DELETE FROM equipment", (error, result) => {
+                    if (err) {
+                        console.log("error: ", err);
+                        result(null, err);
+                        return;
+                    }
+                });
+                console.log(`deleted ${res.affectedRows} equipment`);
+                result(null, res);
             }
-            console.log(`deleted ${res.affectedRows} ingredients`);
-            result(null, res);
         });
     }
 }
 
-module.exports = Ingredients;
+module.exports = Equipments;

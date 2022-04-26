@@ -57,7 +57,7 @@ function findAll(req, res) {
 }
 
 function delOne(req, res) {
-    Ingredients.remove(req.params.name, (err, data) => {
+    Ingredients.remove(req.params.id, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
                     res.status(404).send({

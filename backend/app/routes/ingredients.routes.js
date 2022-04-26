@@ -8,8 +8,8 @@ function routes(app){
     router.get("/", ingredients.findAll);
     // Retrieve a single Dish with id/name
     router.get("/:name", ingredients.findOne);
-    // Delete a Dish with id/name
-    router.delete("/:name", ingredients.delOne);
+    // Delete a Dish with id
+    router.delete("/:id", ingredients.delOne);
     // Delete all ingredients
     router.delete("/", ingredients.delAll);
     app.use('/api/ingredients', router);
