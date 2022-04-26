@@ -28,6 +28,10 @@ class Ingredients{
         let Query2 = `INSERT INTO madeof VALUES(${FID}, ${IID})`;
         console.log(Query2);
         sql.query(Query2, (err, res) => {
+            if(err && err.errno === 1062) {
+                console.log(`Ingredient already added to Dish ID ${FID}`);
+                return;
+            }
             if(err) {
                 console.log("error: ", err);
                 result(err, null);

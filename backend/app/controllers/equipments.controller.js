@@ -16,13 +16,24 @@ function create(req, res) {
     // console.log(equipments);
     // Save equipments in the database
     Equipments.create(equipments, (err, data) => {
-        if (err)
-            res.status(500).send({
-            message:
-                err.message || "Some error occurred while creating the equipments."
+        if(err && err.errno === 1062){
+            Equipments.findOne(req.body.IName, (err, data) => {
+                if (err){
+                    res.status(500).send({
+                        message : "Error retrieving equipment" });
+                } else {
+                    Equipments.madeUsing(FID, data.insertId);
+                    res.send({"ID" : data.insertId});
+                }
             });
+        } else if (err){
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the equipment."
+            });
+        }
         else {
-            // console.log(data);
+            console.log(data);
             Equipments.madeUsing(FID, data.insertId);
             res.send({"ID" : data.insertId});
         }
