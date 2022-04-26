@@ -78,14 +78,10 @@ class Ingredients{
         });
     }
 
-    static remove(name, result) {
-        let query = "";
-        if(isNaN(parseInt(name))){
-            query = `DELETE FROM ingredients WHERE IName = "${name}"`;
-        } else {
-            query = `DELETE FROM ingredients WHERE IID = ${name}`;
-        }
-        sql.query(query, (err, res) => {
+    static remove(id, result) {
+        let query2 = `DELETE FROM ingredients WHERE IID = ${id}`;
+        let query1 = `DELETE FROM madeof WHERE IID = ${id}`;
+        sql.query(query1, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(null, err);
@@ -95,9 +91,22 @@ class Ingredients{
                 // not found ingredients with the IID
                 result({ kind: "not_found" }, null);
                 return;
+            } else {
+                sql.query(query2, (err, res) => {
+                    if (err) {
+                        console.log("error2: ", err);
+                        result(null, err);
+                        return;
+                    }
+                    if (res.affectedRows === 0) {
+                        // not found ingredient with the IID
+                        result({ kind: "not_found" }, null);
+                        return;
+                    }
+                    console.log(`deleted ingredient with ID: ${id}`);
+                    result(null, res);
+                });
             }
-            console.log(`deleted ingredients with name: ${name}`);
-            result(null, res);
         });
     }
 
