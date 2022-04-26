@@ -24,7 +24,7 @@ export default function UserDash(params) {
             }}
             className='btn btn-primary btn-details'
             key={fid}
-            to={`/${fid}`}
+            to={`/dish/${fid}`}
           >
             {dname}
           </Link>
