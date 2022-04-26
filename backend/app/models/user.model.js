@@ -96,7 +96,10 @@ class User {
                     result(err, null);
                     return;
                 }
-                const obj = {exists: res[0]["count(*)"]};
+                const obj = {
+                    exists: res[0]["count(*)"], 
+                    sessUser:{uname: newUser.uname, email: newUser.email, favs:[]}
+                };
                 console.log("Users checked: ", obj);
                 result(null,obj);
             });
