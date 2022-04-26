@@ -14,7 +14,9 @@ export default function UserDash(params) {
         return favs.map(x=>{
             const {fid,dname} = x
             return (
-                <Link key={fid} to={`/${fid}`}>{dname}</Link>
+                <React.Fragment>
+                    <Link key={fid} to={`/${fid}`}>{dname}</Link><br></br>
+                </React.Fragment>
             )
         })
     }
