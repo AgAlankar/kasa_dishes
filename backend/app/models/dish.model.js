@@ -82,9 +82,24 @@ class Dish {
             result(null, res);
         });
     }
-
     static getFiltered(filters,result){
-        let query = "SELECT * FROM dish";
+        let from = "dish";
+        if(filters.ingredients != undefined){
+            let ingr = filters.ingredients;
+            from = `(SELECT ${Dish.allFields.map(x=>"d."+x).join()} from dish d, madeof m, ingredients i WHERE d.fid = m.fid AND m.iid = i.iid AND i.iname IN (`;
+            console.log(ingr);
+            let size = ingr.length;
+            ingr.forEach(ing => {
+                ing = `'${ing}'`;
+                from = from + `${ing}`;
+                if(size > 1){
+                    from = from + ",";
+                }
+                size--;
+            });
+            from = from + `) GROUP BY d.dname HAVING count(d.dname) = ${ingr.length}) as t`;
+        }
+        let query = `SELECT * FROM ${from}`;
         if(Object.keys(filters).length > 0){
             query+=" WHERE ";
             let conds = [];

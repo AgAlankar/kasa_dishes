@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useGlobalContext } from '../context'
+import Select from 'react-select'
 export default function SearchForm() {
   const [showFilt,setShowFilt] = useState(false)
+  const [ingrs,setIngrs] = useState([])
   const { setSearchTerm } = useGlobalContext()
   const nameVal = React.useRef('')
   const cuisVal = React.useRef('')
@@ -13,6 +15,7 @@ export default function SearchForm() {
   const fatVal = React.useRef('')
   const protVal = React.useRef('')
   const carbVal = React.useRef('')
+  const ingrVal = React.useRef([])
 
   React.useEffect(() => {
     try{
@@ -26,6 +29,7 @@ export default function SearchForm() {
       fatVal.current.focus()
       protVal.current.focus()
       carbVal.current.focus()
+      ingrVal.current.focus()
     }catch{
 
     }
@@ -60,17 +64,34 @@ export default function SearchForm() {
     if(carbVal.current.value !== '' && !isNaN(parseFloat(carbVal.current.value))){
       tempTerm['maxcarb'] = carbVal.current.value;
     }
+    let iCurr = ingrVal.current;
+    if(iCurr.state.value !== null && iCurr.state.value.length>0){
+      tempTerm['ingredients'] = ingrVal.current.state.value.map(x=>x.value);
+    }
     setSearchTerm({...tempTerm})
 
   }
   function handleSubmit(e) {
     e.preventDefault()
   }
-  function toggleFilt(){
+  async function toggleFilt(){
     if(showFilt){
       setSearchTerm({dname:nameVal.current.value});
     }
     setShowFilt(!showFilt);
+    try {
+      const ingrList = await loadIngr();
+      console.log(ingrList);
+      setIngrs(ingrList);
+    } catch (error) {
+      
+    }
+  }
+  async function loadIngr(){
+    const url = "http://localhost:8080/api/ingredients";
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.map(x=>({label:x["IName"],value:x["IName"]}));
   }
   return (
     <section className='section search'>
@@ -176,6 +197,14 @@ export default function SearchForm() {
               ref={carbVal}
               onChange={searchDish}
             />
+            <label htmlFor='ingr'>Ingredients</label>
+            <Select
+              ref={ingrVal}
+              name="ingr"
+              options={ingrs}
+              isMulti
+            />
+            <button onClick={searchDish}>Filter by ingredients</button>
           </div>}
         </div>
       </form>
