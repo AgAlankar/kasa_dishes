@@ -87,7 +87,7 @@ class User {
         newUser.pass=`"${newUser.pass}"`;
         newUser.email=`"${newUser.email}"`;
 
-        let que = `select count(*) from Users where pass=${newUser.pass} and email=${newUser.email}`;
+        let que = `select * from Users where pass=${newUser.pass} and uname=${newUser.uname}`;
         console.log(que);
         sql.query(que,
             (err, res) => {
@@ -96,10 +96,10 @@ class User {
                     result(err, null);
                     return;
                 }
-                const obj = {
-                    exists: res[0]["count(*)"], 
-                    sessUser:{uname: newUser.uname, email: newUser.email, favs:[]}
-                };
+                const obj = {exists: res.length>0};
+                if(obj.exists){
+                    obj.sessUser = {uname: res[0]["uname"], email: res[0]["email"], favs:[]};
+                }
                 console.log("Users checked: ", obj);
                 result(null,obj);
             });

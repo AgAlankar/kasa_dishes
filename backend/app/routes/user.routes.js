@@ -8,9 +8,9 @@ function routes(app){
     //del fav
     router.delete("/del",user.delfav);
     //findallfav
-    router.get("/allfav",user.findallfav);
+    router.post("/allfav",user.findallfav);
     //check
-    router.get("/check",user.check);
+    router.post("/check",user.check);
     
     app.use('/api/users',router);
 
