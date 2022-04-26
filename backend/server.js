@@ -4,8 +4,8 @@ const dishroutes = require("./app/routes/dish.routes");
 const userroute = require("./app/routes/user.routes");
 const adminroute = require("./app/routes/admin.routes")
 const askroute = require("./app/routes/ask.routes")
-
 const ingredientsroutes = require("./app/routes/ingredients.routes");
+const equipmentsroutes = require("./app/routes/equipments.routes");
 
 const app = express();
 const whitelist = ["http://localhost:3000"];
@@ -35,6 +35,7 @@ userroute(app);
 adminroute(app);
 askroute(app);
 ingredientsroutes(app);
+equipmentsroutes(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080
