@@ -11,40 +11,51 @@ export default function SingleDish() {
     setLoading(true)
     async function getDish() {
       try {
-        const response = await fetch(
-          `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`
-        )
+        const response = await fetch(`http://localhost:8080/api/dishes/${id}`)
         const data = await response.json()
-        if (data.drinks) {
+        console.log(data)
+        const food = data
+        if (food) {
           const {
-            strDrink: name,
-            strDrinkThumb: image,
-            strAlcoholic: info,
-            strCategory: category,
-            strGlass: glass,
-            strInstructions: instructions,
-            strIngredient1,
-            strIngredient2,
-            strIngredient3,
-            strIngredient4,
-            strIngredient5,
-          } = data.drinks[0]
-          const ingredients = [
-            strIngredient1,
-            strIngredient2,
-            strIngredient3,
-            strIngredient4,
-            strIngredient5,
-          ]
+            dname: name,
+            ImageURL: image,
+            Cuisine: info,
+            Category: category,
+            Veg: vegg,
+            Expertise: expertise,
+            PrepTime: preptime,
+            RecipeURL: recipeurl,
+            Views: views,
+            Calories: calories,
+            Fats: fats,
+            Proteins: proteins,
+            Carbs: carbs,
+          } = data
+          // const ingredients = [
+          //   Ingredient1,
+          //   Ingredient2,
+          //   Ingredient3,
+          //   Ingredient4,
+          //   Ingredient5,
+          // ]
           const newDish = {
             name,
             image,
             info,
             category,
-            glass,
-            instructions,
-            ingredients,
+            vegg,
+            expertise,
+            preptime,
+            recipeurl,
+            views,
+            calories,
+            fats,
+            proteins,
+            carbs,
+            // instructions,
+            // ingredients,
           }
+          console.log(newDish)
           setDish(newDish)
         } else {
           setDish(null)
@@ -62,8 +73,23 @@ export default function SingleDish() {
   if (!dish) {
     return <h2 className='section-title'>no dish to display</h2>
   } else {
-    const { name, image, category, info, glass, instructions, ingredients } =
-      dish
+    const {
+      name,
+      image,
+      category,
+      info,
+      vegg,
+      expertise,
+      preptime,
+      recipeurl,
+      views,
+      calories,
+      fats,
+      proteins,
+      carbs,
+      instructions,
+      ingredients,
+    } = dish
     return (
       <section className='section dish-section'>
         <Link to='/' className='btn btn-primary'>
@@ -83,9 +109,34 @@ export default function SingleDish() {
               <span className='food-data'>info :</span> {info}
             </p>
             <p>
-              <span className='food-data'>glass :</span> {glass}
+              <span className='food-data'>Veg :</span>
+              {vegg === '1' ? 'Veg' : 'Non-Veg'}
             </p>
             <p>
+              <span className='food-data'>Expertise :</span> {expertise}
+            </p>
+            <p>
+              <span className='food-data'>Cooking time (mins):</span> {preptime}
+            </p>
+            <p>
+              <span className='food-data'>Calories :</span> {calories}
+            </p>
+            <p>
+              <span className='food-data'>Fats :</span> {fats}
+            </p>
+            <p>
+              <span className='food-data'>Protiens :</span> {proteins}
+            </p>
+            <p>
+              <span className='food-data'>Carbs :</span> {carbs}
+            </p>
+            <p>
+              <a className='food-data'>Recipe :</a> {recipeurl}
+            </p>
+            <p>
+              <span className='food-data'>Views :</span> {views}
+            </p>
+            {/* <p>
               <span className='food-data'>instructons :</span> {instructions}
             </p>
             <p>
@@ -93,7 +144,7 @@ export default function SingleDish() {
               {ingredients.map((item, index) => {
                 return item ? <span key={index}> {item}</span> : null
               })}
-            </p>
+            </p> */}
           </div>
         </div>
       </section>
