@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useGlobalContext } from '../context'
 import Select from 'react-select'
 export default function SearchForm() {
-  const [showFilt, setShowFilt] = useState(false)
+  const [showFilt,setShowFilt] = useState(false)
+  const [ingrs,setIngrs] = useState([])
   const { setSearchTerm } = useGlobalContext()
   const nameVal = React.useRef('')
   const cuisVal = React.useRef('')
@@ -14,6 +15,7 @@ export default function SearchForm() {
   const fatVal = React.useRef('')
   const protVal = React.useRef('')
   const carbVal = React.useRef('')
+  const ingrVal = React.useRef([])
 
   React.useEffect(() => {
     try {
@@ -27,7 +29,10 @@ export default function SearchForm() {
       fatVal.current.focus()
       protVal.current.focus()
       carbVal.current.focus()
-    } catch {}
+      ingrVal.current.focus()
+    }catch{
+
+    }
   }, [])
 
   function searchDish() {
@@ -71,16 +76,36 @@ export default function SearchForm() {
     ) {
       tempTerm['maxcarb'] = carbVal.current.value
     }
-    setSearchTerm({ ...tempTerm })
+
+    let iCurr = ingrVal.current;
+    if(iCurr.state.value !== null && iCurr.state.value.length>0){
+      tempTerm['ingredients'] = ingrVal.current.state.value.map(x=>x.value);
+    }
+    setSearchTerm({...tempTerm})
+
   }
   function handleSubmit(e) {
     e.preventDefault()
   }
-  function toggleFilt() {
-    if (showFilt) {
-      setSearchTerm({ dname: nameVal.current.value })
+  async function toggleFilt(){
+    if(showFilt){
+      setSearchTerm({dname:nameVal.current.value});
     }
-    setShowFilt(!showFilt)
+    setShowFilt(!showFilt);
+    try {
+      const ingrList = await loadIngr();
+      console.log(ingrList);
+      setIngrs(ingrList);
+    } catch (error) {
+      
+    }
+  }
+  async function loadIngr(){
+    const url = "http://localhost:8080/api/ingredients";
+    const response = await fetch(url);
+    const data = await response.json();
+    return data.map(x=>({label:x["IName"],value:x["IName"]}));
+
   }
 
   const vornv = [
@@ -125,6 +150,7 @@ export default function SearchForm() {
             onChange={searchDish}
           />
           <br></br> <br></br> <hr></hr> <br></br>
+
           <button onClick={toggleFilt} className='btn btn-primary btn-details'>
             {showFilt ? 'Hide' : 'Show'} Filter
           </button>
@@ -214,6 +240,15 @@ export default function SearchForm() {
                 ref={carbVal}
                 onChange={searchDish}
               />
+                  
+            <label htmlFor='ingr'>Ingredients</label>
+            <Select
+              ref={ingrVal}
+              name="ingr"
+              options={ingrs}
+              isMulti
+            />
+            <button onClick={searchDish}>Filter by ingredients</button>
             </div>
           )}
         </div>
