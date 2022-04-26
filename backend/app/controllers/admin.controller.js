@@ -37,7 +37,7 @@ function check(req,res){
   let _admin={};
   _admin.aname=req.body.aname;
   _admin.pass=req.body.pass;
-  // console.log(req.body.aname);
+  console.log(req.body);
   const admin= new Admin(_admin);
   Admin.check(admin, (err, data) => {
       if (err)

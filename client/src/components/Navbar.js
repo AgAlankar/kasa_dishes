@@ -14,9 +14,20 @@ export default function Navbar() {
     }
   }
 
+
   function onLogout() {
     window.localStorage.removeItem('sessUser')
     window.location.href = 'http://localhost:3000/'
+  function getAdmin(){
+    const u = window.localStorage.getItem('sessAdmin');
+    if(!u){
+      return false;
+    }else{
+      const parsed = JSON.parse(u);
+      // for(let k of Obj 
+      console.log(parsed);
+      return parsed;
+    }
   }
 
   return (
@@ -55,6 +66,22 @@ export default function Navbar() {
             )}
           </li>
         </ul>
+        {
+          getUser()? 
+          <Link to='/userdash'>
+            {(getUser()).uname}
+          </Link> 
+          : (
+              getAdmin()?
+              <Link to='/AdminDash'>{(getAdmin()).aname}</Link>
+              :(<div>
+              <Link to='/login'>Login</Link>
+              <Link to='/adminlogin'>Admin Login</Link>
+              </div>
+              )
+            )
+        }
+      
       </div>
     </nav>
   )
