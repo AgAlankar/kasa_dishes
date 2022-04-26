@@ -38,19 +38,32 @@ class Dish {
     }
 
     static findById(fid, result) {
-        sql.query(`SELECT * FROM dish WHERE fid = ${fid}`, (err, res) => {
+        let query1 = `SELECT * FROM dish WHERE fid = ${fid}`;
+        let query2 = `UPDATE Dish SET views = views + 1 WHERE fid =${fid}`;
+        
+        sql.query(query1, (err, res) => {
             if (err) {
-                console.log("error: ", err);
+                console.log("error1 dish: ", err);
                 result(err, null);
                 return;
             }
-            if (res.length) {
-                console.log("found dish: ", res[0]);
-                result(null, res[0]);
-                return;
+            if (!res.length) {
+                console.log("Not found dish: ");
+                result({ kind: "not_found" }, null);    
             }
-            // not found Dish with the fid
-            result({ kind: "not_found" }, null);
+            else
+            {
+                    
+                    sql.query(query2, (err, res2) => {
+                    if (err) {
+                        console.log("error2 dish: ", err);
+                        result(null, err);
+                        return;
+                    }
+
+                    result(null, res[0]);
+                });
+            }
         });
     }
 
