@@ -110,12 +110,20 @@ function check(req,res){
   
   const user= new User(_user);
   User.check(user, (err, data) => {
-      if (err)
-        res.status(500).send({
-          message:
-            err.message || "Some error occurred while adding new User."
-        });
-      else res.send(data);
+      if (err){
+        console.log(err.code)
+        if(err.errno===1062){
+          res.status(403).send({
+            message:
+              err.message || "Some error occurred while adding new User."
+          });
+        }else{
+          res.status(500).send({
+            message:
+              err.message || "Some error occurred while adding new User."
+          });
+        }
+      }else res.send(data);
     });
 
 
