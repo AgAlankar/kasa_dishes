@@ -11,39 +11,31 @@ export default function SingleDish() {
     setLoading(true)
     async function getDish() {
       try {
-        const response = await fetch(
-          `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`
-        )
+        const response = await fetch(`http://localhost:8080/api/dishes/${id}`)
         const data = await response.json()
         if (data.drinks) {
           const {
-            strDrink: name,
-            strDrinkThumb: image,
-            strAlcoholic: info,
-            strCategory: category,
-            strGlass: glass,
-            strInstructions: instructions,
-            strIngredient1,
-            strIngredient2,
-            strIngredient3,
-            strIngredient4,
-            strIngredient5,
+            dname: name,
+            ImageURL: image,
+            Cuisine: info,
+            Category: category,
+            Veg: vegg,
           } = data.drinks[0]
-          const ingredients = [
-            strIngredient1,
-            strIngredient2,
-            strIngredient3,
-            strIngredient4,
-            strIngredient5,
-          ]
+          // const ingredients = [
+          //   Ingredient1,
+          //   Ingredient2,
+          //   Ingredient3,
+          //   Ingredient4,
+          //   Ingredient5,
+          // ]
           const newDish = {
             name,
             image,
             info,
             category,
-            glass,
-            instructions,
-            ingredients,
+            vegg,
+            // instructions,
+            // ingredients,
           }
           setDish(newDish)
         } else {
