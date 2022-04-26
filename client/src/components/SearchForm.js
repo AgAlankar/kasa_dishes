@@ -1,5 +1,7 @@
 import React from 'react'
 import { useGlobalContext } from '../context'
+import Select from 'react-select'
+
 export default function SearchForm() {
   const { setSearchTerm } = useGlobalContext()
   const nameVal = React.useRef('')
@@ -27,40 +29,62 @@ export default function SearchForm() {
   }, [])
 
   function searchDish() {
-    const tempTerm = {dname: nameVal.current.value}
-    if(cuisVal.current.value !== ''){
-      tempTerm['cuisine'] = cuisVal.current.value;
+    const tempTerm = { dname: nameVal.current.value }
+    if (cuisVal.current.value !== '') {
+      tempTerm['cuisine'] = cuisVal.current.value
     }
-    if(vegVal.current.value !== ''){
-      tempTerm['veg'] = vegVal.current.value;
+    if (vegVal.current.value !== '') {
+      tempTerm['veg'] = vegVal.current.value
     }
-    if(catVal.current.value !== ''){
-      tempTerm['category'] = catVal.current.value;
+    if (catVal.current.value !== '') {
+      tempTerm['category'] = catVal.current.value
     }
-    if(expVal.current.value !== ''){
-      tempTerm['maxexp'] = expVal.current.value;
+    if (expVal.current.value !== '') {
+      tempTerm['maxexp'] = expVal.current.value
     }
-    if(prepVal.current.value !== ''){
-      tempTerm['maxprep'] = prepVal.current.value;
+    if (prepVal.current.value !== '') {
+      tempTerm['maxprep'] = prepVal.current.value
     }
-    if(calVal.current.value !== '' && !isNaN(parseFloat(calVal.current.value))){
-      tempTerm['maxcal'] = calVal.current.value;
+    if (
+      calVal.current.value !== '' &&
+      !isNaN(parseFloat(calVal.current.value))
+    ) {
+      tempTerm['maxcal'] = calVal.current.value
     }
-    if(fatVal.current.value !== '' && !isNaN(parseFloat(fatVal.current.value))){
-      tempTerm['maxfat'] = fatVal.current.value;
+    if (
+      fatVal.current.value !== '' &&
+      !isNaN(parseFloat(fatVal.current.value))
+    ) {
+      tempTerm['maxfat'] = fatVal.current.value
     }
-    if(protVal.current.value !== '' && !isNaN(parseFloat(protVal.current.value))){
-      tempTerm['minprot'] = protVal.current.value;
+    if (
+      protVal.current.value !== '' &&
+      !isNaN(parseFloat(protVal.current.value))
+    ) {
+      tempTerm['minprot'] = protVal.current.value
     }
-    if(carbVal.current.value !== '' && !isNaN(parseFloat(carbVal.current.value))){
-      tempTerm['maxcarb'] = carbVal.current.value;
+    if (
+      carbVal.current.value !== '' &&
+      !isNaN(parseFloat(carbVal.current.value))
+    ) {
+      tempTerm['maxcarb'] = carbVal.current.value
     }
-    setSearchTerm({...tempTerm})
-
+    setSearchTerm({ ...tempTerm })
   }
   function handleSubmit(e) {
     e.preventDefault()
   }
+
+  // fetch ingredients array
+  const aquaticCreatures = [
+    { label: 'Shark', value: 'Shark' },
+    { label: 'Dolphin', value: 'Dolphin' },
+    { label: 'Whale', value: 'Whale' },
+    { label: 'Octopus', value: 'Octopus' },
+    { label: 'Crab', value: 'Crab' },
+    { label: 'Lobster', value: 'Lobster' },
+  ]
+
   return (
     <section className='section search'>
       <form className='search-form' onSubmit={handleSubmit}>
@@ -73,6 +97,14 @@ export default function SearchForm() {
             ref={nameVal}
             onChange={searchDish}
           />
+
+          <label htmlFor='ingredients'>Search by choosing ingredients</label>
+          <Select
+            options={aquaticCreatures}
+            isMulti
+            onChange={(opt) => console.log(opt)}
+          />
+
           <label htmlFor='cuis'>Filter by cuisine</label>
           <input
             type='text'
@@ -82,16 +114,11 @@ export default function SearchForm() {
             onChange={searchDish}
           />
           <label htmlFor='veg'>Filter by veg/non-veg</label>
-          <select
-            name='veg'
-            id='veg'
-            ref={vegVal}
-            onChange={searchDish}
-          >            
-            <option value="">Select</option>
-            <option value="1">Veg</option>
-            <option value="0">Non-veg</option>
-          </select>          
+          <select name='veg' id='veg' ref={vegVal} onChange={searchDish}>
+            <option value=''>Select</option>
+            <option value='1'>Veg</option>
+            <option value='0'>Non-veg</option>
+          </select>
           <label htmlFor='cat'>Filter by category</label>
           <input
             type='text'
@@ -101,34 +128,24 @@ export default function SearchForm() {
             onChange={searchDish}
           />
           <label htmlFor='exp'>Filter by maximum expertise</label>
-          <select
-            name='exp'
-            id='exp'
-            ref={expVal}
-            onChange={searchDish}
-          >            
-            <option value="">Select</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select> 
+          <select name='exp' id='exp' ref={expVal} onChange={searchDish}>
+            <option value=''>Select</option>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+            <option value='5'>5</option>
+          </select>
           <label htmlFor='prep'>Filter by maximum prep time</label>
-          <select
-            name='prep'
-            id='prep'
-            ref={prepVal}
-            onChange={searchDish}
-          >            
-            <option value="">Select</option>
-            <option value="10">10 mins</option>
-            <option value="20">20 mins</option>
-            <option value="30">30 mins</option>
-            <option value="60">1 hour</option>
-            <option value="90">1.5 hours</option>
-            <option value="120">2 hours</option>
-            <option value="180">3 hours</option>
+          <select name='prep' id='prep' ref={prepVal} onChange={searchDish}>
+            <option value=''>Select</option>
+            <option value='10'>10 mins</option>
+            <option value='20'>20 mins</option>
+            <option value='30'>30 mins</option>
+            <option value='60'>1 hour</option>
+            <option value='90'>1.5 hours</option>
+            <option value='120'>2 hours</option>
+            <option value='180'>3 hours</option>
           </select>
           <label htmlFor='cal'>Filter by max calorie value</label>
           <input

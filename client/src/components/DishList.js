@@ -3,7 +3,7 @@ import Dish from './Dish'
 import Loading from './Loading'
 import { useGlobalContext } from '../context'
 
-export default function CocktailList() {
+export default function DishList() {
   const { dishes, loading } = useGlobalContext()
   if (loading) {
     return <Loading />

@@ -1,30 +1,50 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 // import pages
 import Home from './pages/Home'
 import About from './pages/About'
-import SingleCocktail from './pages/SingleDish'
+import SingleDish from './pages/SingleDish'
 import Error from './pages/Error'
 // import components
 import Navbar from './components/Navbar'
 import AddDish from './pages/AddDish'
+import RegistrationForm from './pages/RegistrationForm'
 import Login from './pages/Login'
+import PrivateRoute from './utils/PrivateRoute'
+import AlertComponent from './components/AlertComponent'
+
 function App() {
+  const [title, updateTitle] = useState(null)
+  const [errorMessage, updateErrorMessage] = useState(null)
   return (
     <Router>
-      <Navbar />
+      <Navbar title={title} />
       <Switch>
-        <Route exact path='/'>
-          <Home />
+        <Route path='/register'>
+          <RegistrationForm
+            showError={updateErrorMessage}
+            updateTitle={updateTitle}
+          />
         </Route>
-        <Route exact path='/login'>
-          <Login />
+
+        <PrivateRoute path='/home'>
+          <Home />
+        </PrivateRoute>
+
+        <Route path='/login'>
+          <Login showError={updateErrorMessage} updateTitle={updateTitle} />
+        </Route>
+        <Route path='/register'>
+          <RegistrationForm
+            showError={updateErrorMessage}
+            updateTitle={updateTitle}
+          ></RegistrationForm>
         </Route>
         <Route path='/about'>
           <About />
         </Route>
-        <Route path='/cocktail/:id'>
-          <SingleCocktail />
+        <Route path='/dish/:id'>
+          <SingleDish />
         </Route>
         <Route path='/AddDish'>
           <AddDish />
@@ -33,6 +53,10 @@ function App() {
           <Error />
         </Route>
       </Switch>
+      <AlertComponent
+        errorMessage={errorMessage}
+        hideError={updateErrorMessage}
+      />
     </Router>
   )
 }
