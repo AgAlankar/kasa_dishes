@@ -18,6 +18,7 @@ export default function Navbar() {
   function onLogout() {
     window.localStorage.removeItem('sessUser')
     window.location.href = 'http://localhost:3000/'
+  }
   function getAdmin(){
     const u = window.localStorage.getItem('sessAdmin');
     if(!u){
