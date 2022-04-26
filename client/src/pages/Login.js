@@ -20,7 +20,7 @@ export default function Login() {
         uname,
         pass: password,
       }
-      // console.log(optbody);
+      // console.log(optbody)
       const options = {
         method: 'POST',
         headers: {

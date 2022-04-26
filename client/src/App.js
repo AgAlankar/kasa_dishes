@@ -14,6 +14,7 @@ import UserDash from './pages/UserDash'
 import Admin from './pages/adminlog'
 import AdminDash from './pages/AdminDash'
 import UserRegister from './pages/UserRegister'
+import ViewReqs from './pages/ViewReqs'
 
 function App() {
   return (
@@ -37,6 +38,9 @@ function App() {
         </Route>
         <Route exact path='/admindash'>
           <AdminDash />
+        </Route>
+        <Route exact path='/ViewRequest'>
+          <ViewReqs />
         </Route>
         <Route path='/about'>
           <About />

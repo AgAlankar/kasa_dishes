@@ -1,14 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../logo.svg'
-import { getUser, logoutUser, getAdmin, logoutAdmin } from '../sessHandler'
+import { getUser, logoutAll, getAdmin } from '../sessHandler'
 export default function Navbar() {
-  function onLogout() {
-    logoutUser()
-    logoutAdmin()
-    window.location.href = 'http://localhost:3000/'
-  }
-
   return (
     <nav className='navbar'>
       <div className='nav-center'>
@@ -28,15 +22,20 @@ export default function Navbar() {
           <li>
             {getUser() ? (
               <Link to='/userdash'>Dashboard</Link>
+            ) : getAdmin() ? (
+              <Link to='/AdminDash'>Dashboard</Link>
             ) : (
-              <Link to='/login'>Login</Link>
+              <div>
+                <Link to='/login'>Login</Link>
+                <Link to='/adminlogin'>Admin Login</Link>
+              </div>
             )}
           </li>
           <li>
-            {getUser() ? (
+            {getUser() || getAdmin() ? (
               <button
                 className='btn btn-primary btn-details'
-                onClick={onLogout}
+                onClick={logoutAll}
               >
                 Log Out
               </button>
@@ -45,16 +44,6 @@ export default function Navbar() {
             )}
           </li>
         </ul>
-        {getUser() ? (
-          <Link to='/userdash'>{getUser().uname}</Link>
-        ) : getAdmin() ? (
-          <Link to='/AdminDash'>{getAdmin().aname}</Link>
-        ) : (
-          <div>
-            <Link to='/login'>Login</Link>
-            <Link to='/adminlogin'>Admin Login</Link>
-          </div>
-        )}
       </div>
     </nav>
   )

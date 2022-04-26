@@ -7,18 +7,18 @@ import Button from 'react-bootstrap/Button'
 export default function Adminlog() {
   const [aname, setaname] = useState('')
   const [password, setPassword] = useState('')
-  const [ok,setOk] = useState(true)
-  const [go,setGo] = useState(false)
+  const [ok, setOk] = useState(true)
+  const [go, setGo] = useState(false)
 
   function validateForm() {
     return aname.length > 0 && password.length > 0
   }
-  async function getAdminData(){
-    try{
+  async function getAdminData() {
+    try {
       const url = 'http://localhost:8080/api/admin/check'
       const optbody = {
         aname,
-        pass:password
+        pass: password,
       }
       const options = {
         method: 'POST',
@@ -27,42 +27,41 @@ export default function Adminlog() {
         },
         body: JSON.stringify(optbody),
       }
-      console.log(options);
+      console.log(options)
       const response = await fetch(`${url}`, options)
       const data = await response.json()
       console.log(data)
-      return data;
-    }catch(err){
-      console.log(err);
+      return data
+    } catch (err) {
+      console.log(err)
     }
   }
-  
 
   const checkCred = useCallback(async () => {
     try {
-      const adata = await getAdminData();
-      const {exists,sessAdmin} = adata;
+      const adata = await getAdminData()
+      const { exists, sessAdmin } = adata
       if (exists) {
-        localStorage.setItem('sessAdmin',JSON.stringify(sessAdmin));
-        setGo(true);
+        localStorage.setItem('sessAdmin', JSON.stringify(sessAdmin))
+        setGo(true)
       } else {
-        setOk(false);
+        setOk(false)
       }
     } catch (error) {
       console.log(error)
     }
-  }, [aname,password])
+  }, [aname, password])
 
   function handleSubmit(event) {
-    event.preventDefault();
+    event.preventDefault()
     // setCheck(true);
-    checkCred();
+    checkCred()
   }
-  useEffect(()=>{
-    if(go){
-      window.location.href = "http://localhost:3000/about"
+  useEffect(() => {
+    if (go) {
+      window.location.href = 'http://localhost:3000/admindash'
     }
-  },[go])
+  }, [go])
   // useEffect(()=>{
   //   // if(check){
   //     checkCred()
@@ -94,7 +93,7 @@ export default function Adminlog() {
           Login
         </Button>
       </Form>
-      {!ok && "Incorrect credentials"}
+      {!ok && 'Incorrect credentials'}
     </div>
   )
 }

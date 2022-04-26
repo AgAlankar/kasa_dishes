@@ -1,12 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import { getAdmin, logoutAll } from '../sessHandler'
 export default function AdminDash(params) {
-    function onLogout(){
-        window.localStorage.removeItem('sessAdmin');
-        window.location.href = 'http://localhost:3000/';
-    }
-    return (
-        <div>
-            <button onClick={onLogout}>Log Out</button>
-        </div>
-    );
-};
+  if (!getAdmin()) {
+    window.location.href = 'http://localhost:3000/adminlogin'
+    return <div></div>
+  }
+  return (
+    <div>
+      <Link to='/AddDish'>Add Dish</Link>
+      <br></br>
+      <Link to='/ViewRequest'>View Dish Requests</Link>
+    </div>
+  )
+}

@@ -9,8 +9,10 @@ function getUser() {
     return parsed
   }
 }
-function logoutUser() {
+function logoutAll() {
   window.localStorage.removeItem('sessUser')
+  window.localStorage.removeItem('sessAdmin')
+  window.location.href = 'http://localhost:3000/'
 }
 function getAdmin() {
   const u = window.localStorage.getItem('sessAdmin')
@@ -24,8 +26,4 @@ function getAdmin() {
   }
 }
 
-function logoutAdmin() {
-  window.localStorage.removeItem('sessAdmin')
-}
-
-export { getUser, logoutUser, getAdmin, logoutAdmin }
+export { getUser, getAdmin, logoutAll }
