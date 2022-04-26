@@ -2,17 +2,23 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import logo from '../logo.svg'
 export default function Navbar() {
-  function getUser(){
-    const u = window.localStorage.getItem('sessUser');
-    if(!u){
-      return false;
-    }else{
-      const parsed = JSON.parse(u);
-      // for(let k of Obj 
-      console.log(parsed);
-      return parsed;
+  function getUser() {
+    const u = window.localStorage.getItem('sessUser')
+    if (!u) {
+      return false
+    } else {
+      const parsed = JSON.parse(u)
+      // for(let k of Obj
+      console.log(parsed)
+      return parsed
     }
   }
+
+  function onLogout() {
+    window.localStorage.removeItem('sessUser')
+    window.location.href = 'http://localhost:3000/'
+  }
+
   return (
     <nav className='navbar'>
       <div className='nav-center'>
@@ -29,10 +35,26 @@ export default function Navbar() {
           <li>
             <Link to='/Requestform'>Request</Link>
           </li>
+          <li>
+            {getUser() ? (
+              <Link to='/userdash'>Dashboard</Link>
+            ) : (
+              <Link to='/login'>Login</Link>
+            )}
+          </li>
+          <li>
+            {getUser() ? (
+              <button
+                className='btn btn-primary btn-details'
+                onClick={onLogout}
+              >
+                Log Out
+              </button>
+            ) : (
+              <div></div>
+            )}
+          </li>
         </ul>
-        {getUser()? <Link to='/userdash'>
-          {(getUser()).uname}
-        </Link> : <Link to='/login'>Login</Link>}
       </div>
     </nav>
   )

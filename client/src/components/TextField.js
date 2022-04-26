@@ -13,6 +13,7 @@ class TextField extends Component {
     const { value: ingredient } = this.props
     return (
       <React.Fragment>
+        <br></br>
         <input
           className='form-control'
           name='iname'
@@ -21,6 +22,7 @@ class TextField extends Component {
           placeholder='iname'
           type='text'
         />
+        <hr></hr>
         <input
           className='form-control'
           name='restrictions'
@@ -29,7 +31,7 @@ class TextField extends Component {
           placeholder='restrictions'
           type='text'
         />
-        <br></br>
+        <hr></hr>
       </React.Fragment>
     )
   }
