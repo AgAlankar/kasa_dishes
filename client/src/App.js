@@ -13,6 +13,7 @@ import Login from './pages/Login'
 import UserDash from './pages/UserDash'
 import Admin from './pages/adminlog'
 import AdminDash from './pages/AdminDash'
+import UserRegister from './pages/UserRegister'
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
       <Switch>
         <Route exact path='/'>
           <Home />
+        </Route>
+        <Route exact path='/UserReg'>
+          <UserRegister />
         </Route>
         <Route exact path='/login'>
           <Login />
