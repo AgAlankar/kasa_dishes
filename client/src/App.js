@@ -10,6 +10,7 @@ import Navbar from './components/Navbar'
 import AddDish from './pages/AddDish'
 import Requestform from './pages/Requestform'
 import Login from './pages/Login'
+import UserDash from './pages/UserDash'
 function App() {
   return (
     <Router>
@@ -20,6 +21,9 @@ function App() {
         </Route>
         <Route exact path='/login'>
           <Login />
+        </Route>
+        <Route exact path='/userdash'>
+          <UserDash />
         </Route>
         <Route path='/about'>
           <About />

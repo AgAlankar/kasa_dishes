@@ -13,9 +13,8 @@ export default function Login() {
   function validateForm() {
     return uname.length > 0 && password.length > 0
   }
-
-  const checkCred = useCallback(async () => {
-    try {
+  async function getUserData(){
+    try{
       const url = 'http://localhost:8080/api/users/check'
       const optbody = {
         uname,
@@ -32,9 +31,42 @@ export default function Login() {
       const response = await fetch(`${url}`, options)
       const data = await response.json()
       console.log(data)
-      const {exists,sessUser} = data
+      return data;
+    }catch(err){
+      console.log(err);
+    }
+  }
+  async function getUserFavs(){
+    try{
+      const url = 'http://localhost:8080/api/users/allfav'
+      const optbody = {
+        uname
+      }
+      console.log(optbody);
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(optbody),
+      }
+      const response = await fetch(`${url}`, options)
+      const data = await response.json()
+      console.log(data)
+      return data;
+    }catch(err){
+      console.log(err);
+    }
+  }
+  const checkCred = useCallback(async () => {
+    try {
+      const udata = await getUserData();
+      const {exists,sessUser} = udata;
       if (exists) {
-        // localStorage.removeItem('sessUser');
+        const fdata = await getUserFavs();
+        if(fdata){
+          sessUser.favs = fdata;
+        }
         localStorage.setItem('sessUser',JSON.stringify(sessUser));
         setGo(true);
       } else {
