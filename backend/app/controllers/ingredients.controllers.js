@@ -13,19 +13,33 @@ function create(req, res) {
     _ingredients.IID = req.body.IID;
     _ingredients.IName = req.body.IName;
     _ingredients.restrictions = req.body.restrictions;
+    if(req.body.restrictions == "undefined")
+        _ingredients.restrictions = "";
+    console.log(_ingredients.restrictions);
     const ingredients = new Ingredients(_ingredients);
     // console.log(ingredients);
     // Save ingredients in the database
     Ingredients.create(ingredients, (err, data) => {
-        if (err)
-            res.status(500).send({
-            message:
-                err.message || "Some error occurred while creating the ingredients."
+        if (err && err.errno === 1062){
+            Ingredients.findOne(req.body.IName, (err, data) => {
+                if(err){
+                    res.status(500).send({
+                        message: "Error retrieving ingredients"});
+                } else {                
+                    Ingredients.madeOf(FID, data.IID);
+                    res.send({"ID" : data.IID});
+                }
             });
+        } else if (err){
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the ingredients."
+            });
+        }
         else {
             console.log(data);
             Ingredients.madeOf(FID, data.insertId);
-            res.send(data.insertId);
+            res.send({"ID" : data.insertId});
         }
     });
 }

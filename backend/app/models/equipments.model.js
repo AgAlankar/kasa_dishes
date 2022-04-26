@@ -25,6 +25,10 @@ class Equipments{
         let Query2 = `INSERT INTO madeusing VALUES(${FID}, ${EID})`;
         console.log(Query2);
         sql.query(Query2, (err, res) => {
+            if(err && err.errno === 1062) {
+                console.log(`Equipment already added to Dish ID ${FID}`);
+                return;
+            }
             if(err) {
                 console.log("error: ", err);
                 result(err, null);
