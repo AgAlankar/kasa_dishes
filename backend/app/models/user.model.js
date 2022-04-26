@@ -87,7 +87,7 @@ class User {
         newUser.pass=`"${newUser.pass}"`;
         newUser.email=`"${newUser.email}"`;
 
-        let que = `select count(*) from Users where pass=${newUser.pass} and email=${newUser.email}`;
+        let que = `select count(*) from Users where pass=${newUser.pass} and uname=${newUser.uname}`;
         console.log(que);
         sql.query(que,
             (err, res) => {

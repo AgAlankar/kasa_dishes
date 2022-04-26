@@ -15,7 +15,7 @@ export default function CocktailList() {
   }
   return (
     <section className='section'>
-      <h2 className='section-title'>Dishes</h2>
+      <h2 className='section-title'>{window.localStorage.getItem('sessUser')} Dishes</h2>
       <div className='dishes-center'>
         {dishes.map((item) => {
           return <Dish key={item.id} {...item} />
