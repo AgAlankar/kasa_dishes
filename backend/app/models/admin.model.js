@@ -28,6 +28,26 @@ class Admin {
 
     }
 
+    static check(newAdmin,result)
+    {
+        newAdmin.aname=`"${newAdmin.aname}"`;
+        newAdmin.pass=`"${newAdmin.pass}"`;
+
+        let que = `Select count(*) from Admins where aname=${newAdmin.aname} and pass=${newAdmin.pass}; `;
+        console.log(que);
+        sql.query(que,
+            (err, res) => {
+                if (err) {
+                    console.log("error: ", err);
+                    result(err, null);
+                    return;
+                }
+                const obj = {exists: res[0]["count(*)"]};
+                console.log("Admin checked: ", obj);
+                result(null,obj);
+            });
+    }
+
 
 }
 
