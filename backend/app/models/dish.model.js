@@ -179,6 +179,34 @@ class Dish {
             result(null, res);
         });
     }
+    static searchByIngredients(ingr, result){
+        let query = `SELECT dname from dish d, madeof m, ingredients i WHERE d.fid = m.fid AND m.iid = i.iid AND i.iname IN (`;
+        console.log(ingr);
+        let size = ingr.length;
+        ingr.forEach(ing => {
+            ing = `'${ing}'`;
+            query = query + `${ing}`;
+            if(size > 1){
+                query = query + ",";
+            }
+            size--;
+        });
+        query = query + `) GROUP BY dname HAVING count(dname) = ${ingr.length};`;
+        sql.query(query, (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            } 
+            if (res.length) {
+                console.log("found dishes: \n", res);
+                result(null, res);
+                return;
+            }
+            console.log("No dish found with these ingredients");
+            result({kind : "not_found" }, null); 
+        });
+    }
 }
 
 module.exports = Dish;

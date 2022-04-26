@@ -9,6 +9,8 @@ function routes(app){
     router.post("/search", dishes.findFiltered);
     // Retrieve all veg Dishes
     router.get("/veg", dishes.findAllVeg);
+    // Retrieve using ingredients
+    router.get("/find", dishes.searchByIngredients);
     // Retrieve a single Dish with id
     router.get("/:id", dishes.findOne);
     // Update a Dish with id
