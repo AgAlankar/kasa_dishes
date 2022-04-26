@@ -15,6 +15,9 @@ export default function Navbar() {
           <li>
             <Link to='/about'>about</Link>
           </li>
+          <li>
+            <Link to='/Requestform'>Request</Link>
+          </li>
         </ul>
       </div>
     </nav>
