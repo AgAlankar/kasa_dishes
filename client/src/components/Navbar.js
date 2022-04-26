@@ -13,6 +13,19 @@ export default function Navbar() {
       return parsed;
     }
   }
+
+  function getAdmin(){
+    const u = window.localStorage.getItem('sessAdmin');
+    if(!u){
+      return false;
+    }else{
+      const parsed = JSON.parse(u);
+      // for(let k of Obj 
+      console.log(parsed);
+      return parsed;
+    }
+  }
+
   return (
     <nav className='navbar'>
       <div className='nav-center'>
@@ -30,9 +43,23 @@ export default function Navbar() {
             <Link to='/Requestform'>Request</Link>
           </li>
         </ul>
-        {getUser()? <Link to='/userdash'>
-          {(getUser()).uname}
-        </Link> : <Link to='/login'>Login</Link>}
+        {
+          getUser()? 
+          <Link to='/userdash'>
+            {(getUser()).uname}
+          </Link> 
+          : (
+              getAdmin()?
+              <Link to='/AdminDash'>{(getAdmin()).aname}</Link>
+              :(<div>
+              <Link to='/login'>Login</Link>
+              <Link to='/adminlogin'>Admin Login</Link>
+              </div>
+              )
+            )
+        }
+      
+
       </div>
     </nav>
   )
