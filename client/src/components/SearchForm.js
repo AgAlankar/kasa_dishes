@@ -68,7 +68,7 @@ export default function SearchForm() {
   }
   function toggleFilt(){
     if(showFilt){
-      setSearchTerm({});
+      setSearchTerm({dname:nameVal.current.value});
     }
     setShowFilt(!showFilt);
   }
