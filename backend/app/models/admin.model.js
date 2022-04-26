@@ -33,7 +33,7 @@ class Admin {
         newAdmin.aname=`"${newAdmin.aname}"`;
         newAdmin.pass=`"${newAdmin.pass}"`;
 
-        let que = `Select count(*) from Admins where aname=${newAdmin.aname} and pass=${newAdmin.pass}; `;
+        let que = `Select * from Admins where aname=${newAdmin.aname} and pass=${newAdmin.pass}`;
         console.log(que);
         sql.query(que,
             (err, res) => {
@@ -42,7 +42,11 @@ class Admin {
                     result(err, null);
                     return;
                 }
-                const obj = {exists: res[0]["count(*)"]};
+                const obj = {exists: res.length>0};
+                if(obj.exists){
+                    obj.sessAdmin = {aname: res[0]["aname"]};
+                
+                }
                 console.log("Admin checked: ", obj);
                 result(null,obj);
             });
