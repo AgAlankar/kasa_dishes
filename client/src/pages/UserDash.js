@@ -21,7 +21,8 @@ export default function UserDash(params) {
     return (
         <div>
             <button onClick={onLogout}>Log Out</button>
-            <div className='column'>
+            <div className='column pd-4'>
+                <h2>My favourites</h2>
                 {favLinks()}
             </div>
         </div>
