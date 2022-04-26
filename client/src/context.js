@@ -24,18 +24,19 @@ const AppProvider = ({ children }) => {
       }
       const response = await fetch(`${url}`, options)
       const data = await response.json()
-      console.log(data)
+      // console.log(data)
       const food = data
       if (food) {
         const newDishes = food.map((item) => {
-          const { FID, dname, ImageURL, Expertise, Veg } = item
+          console.log(item);
+          const { fid, dname, imageurl, expertise, veg } = item
 
           return {
-            id: FID,
+            id: fid,
             name: dname,
-            image: ImageURL,
-            info: Expertise,
-            glass: Veg ? 'Veg' : 'Non-Veg',
+            image: imageurl,
+            info: expertise,
+            glass: veg ? 'Veg' : 'Non-veg',
           }
         })
         setDishes(newDishes)

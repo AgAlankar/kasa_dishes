@@ -83,10 +83,10 @@ class Dish {
         });
     }
     static getFiltered(filters,result){
-        let from = "dish";
+        let from = "dish d";
         if(filters.ingredients != undefined){
             let ingr = filters.ingredients;
-            from = `(SELECT ${Dish.allFields.map(x=>"d."+x).join()} from dish d, madeof m, ingredients i WHERE d.fid = m.fid AND m.iid = i.iid AND i.iname IN (`;
+            from = `(SELECT ${Dish.allFields.map(x=>"dd."+x).join()} from dish dd, madeof m, ingredients i WHERE dd.fid = m.fid AND m.iid = i.iid AND i.iname IN (`;
             console.log(ingr);
             let size = ingr.length;
             ingr.forEach(ing => {
@@ -97,9 +97,9 @@ class Dish {
                 }
                 size--;
             });
-            from = from + `) GROUP BY d.dname HAVING count(d.dname) = ${ingr.length}) as t`;
+            from = from + `) GROUP BY dd.dname HAVING count(dd.dname) = ${ingr.length}) as d`;
         }
-        let query = `SELECT * FROM ${from}`;
+        let query = `SELECT ${Dish.allFields.map(x=>"d."+x).join()} FROM ${from}`;
         if(Object.keys(filters).length > 0){
             query+=" WHERE ";
             let conds = [];
@@ -142,7 +142,7 @@ class Dish {
                 result(null, err);
                 return;
             }
-            console.log("dish: ", res);
+            // console.log("dish: ", res);
             result(null, res);
         });
     }
