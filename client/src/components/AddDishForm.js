@@ -222,6 +222,7 @@ class AddDishForm extends Component {
                       }}
                       placeholder={field}
                       type='text'
+                      required
                     />
                     <hr></hr>
                     <br></br>
@@ -305,6 +306,7 @@ class AddDishForm extends Component {
               </div>
               <br></br>
               <button
+              type='submit'
                 className='btn btn-primary btn-details'
                 onClick={this.handleSubmit}
               >
