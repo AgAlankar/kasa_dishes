@@ -70,30 +70,41 @@ export default function Adminlog() {
   // },[check,checkCred])
 
   return (
-    <div className='Admin'>
-      <Form onSubmit={handleSubmit}>
-        <Form.Group size='lg' controlId='aname'>
-          <Form.Label>Admin Username</Form.Label>
-          <Form.Control
-            autoFocus
-            type='aname'
-            value={aname}
-            onChange={(e) => setaname(e.target.value)}
-          />
-        </Form.Group>
-        <Form.Group size='lg' controlId='password'>
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type='password'
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </Form.Group>
-        <Button block size='lg' type='submit' disabled={!validateForm()}>
-          Login
-        </Button>
-      </Form>
-      {!ok && 'Incorrect credentials'}
-    </div>
+    <section className='section search'>
+      <div className='Admin'>
+        <div className='form-control row'>
+          <Form className='search-form' onSubmit={handleSubmit}>
+            <Form.Group size='lg' controlId='aname'>
+              <Form.Label>Admin Username</Form.Label>
+              <Form.Control
+                autoFocus
+                type='aname'
+                value={aname}
+                onChange={(e) => setaname(e.target.value)}
+              />
+            </Form.Group>
+            <Form.Group size='lg' controlId='password'>
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type='password'
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </Form.Group>
+            <br></br>
+            <Button
+              className='btn btn-primary btn-details'
+              block
+              size='lg'
+              type='submit'
+              disabled={!validateForm()}
+            >
+              Login
+            </Button>
+          </Form>
+          {!ok && 'Incorrect credentials'}
+        </div>
+      </div>
+    </section>
   )
 }

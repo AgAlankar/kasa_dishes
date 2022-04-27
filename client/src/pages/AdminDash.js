@@ -7,10 +7,36 @@ export default function AdminDash(params) {
     return <div></div>
   }
   return (
-    <div>
-      <Link to='/AddDish'>Add Dish</Link>
-      <br></br>
-      <Link to='/ViewRequest'>View Dish Requests</Link>
-    </div>
+    <section className='section search'>
+      <form className='search-form'>
+        <div className='form-control row'>
+          <Link
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+            className='btn btn-primary btn-details'
+            to='/AddDish'
+          >
+            Add Dish
+          </Link>
+          <br></br>
+          <Link
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+            className='btn btn-primary btn-details'
+            to='/ViewRequest'
+          >
+            View Dish Requests
+          </Link>
+        </div>
+      </form>
+    </section>
   )
 }
