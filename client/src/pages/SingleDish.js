@@ -7,12 +7,16 @@ export default function SingleDish() {
   const [loading, setLoading] = React.useState(false)
   const [dish, setDish] = React.useState(null)
   const [ingredient, setIngredient] = React.useState([])
+  const [equipment, setEquipment] = React.useState([])
 
   React.useEffect(() => {
     setLoading(true)
     async function getDish() {
       try {
         const response = await fetch(`http://localhost:8080/api/dishes/${id}`)
+        const data = await response.json()
+        console.log(data)
+        const food = data
 
         const options = {
           method: 'GET',
@@ -20,13 +24,15 @@ export default function SingleDish() {
             'Content-Type': 'application/json;charset=utf-8',
           },
         }
+
         const response2 = await fetch(`http://localhost:8080/api/dishes/ingredients/${id}`, options)
         const data2 = await response2.json()
         console.log(data2)
-        const data = await response.json()
-        console.log(data)
-        const food = data
 
+        const response3 = await fetch(`http://localhost:8080/api/dishes/equipments/${id}`, options)
+        const data3 = await response3.json()
+        console.log(data3)
+      
         if (food) {
           const {
             FID:fid,
@@ -72,6 +78,7 @@ export default function SingleDish() {
           console.log(newDish)
           setDish(newDish)
           setIngredient(data2)
+          setEquipment(data3)
         } else {
           setDish(null)
         }
@@ -180,9 +187,12 @@ export default function SingleDish() {
               <span className='food-data'>Views :</span> {views}
             </p>
             <p>
-              
               <span className='food-data'>ingredients :</span>
               {ingredient.map(x => x.iname).join(", ")}
+            </p>
+            <p>
+              <span className='food-data'>equipments :</span>
+              {equipment.map(x => x.ename).join(", ")}
             </p>
           </div>
         </div>

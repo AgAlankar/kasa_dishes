@@ -254,6 +254,25 @@ class Dish {
             result({kind : "not_found" }, null);
         })
     }
+
+    static getEquipments(FID, result){
+        let query = `SELECT e.ename, e.eid from madeusing m, equipment e WHERE m.fid = ${FID} AND m.eid = e.eid`;
+        console.log(query);
+        sql.query(query, (err, res) => {
+            if(err){
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.length) {
+                console.log("found equipment: \n", res);
+                result(null, res);
+                return;
+            }
+            console.log("No dish found with these equipment");
+            result({kind : "not_found" }, null);
+        })
+    }
 }
 
 module.exports = Dish;
