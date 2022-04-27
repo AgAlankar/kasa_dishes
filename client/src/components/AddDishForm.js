@@ -203,7 +203,7 @@ class AddDishForm extends Component {
     // console.log(Object.keys(dish))
     return (
       <section className='section search'>
-        <form className='search-form'>
+        <form className='search-form' onSubmit={this.handleSubmit}>
           <div className='form-control row'>
             <div className='row'>
               <label>ADD A DISH</label>
@@ -211,7 +211,7 @@ class AddDishForm extends Component {
                 // console.log(field)
                 return (
                   <div key={field}>
-                    <input
+                    <input 
                       className='form-control'
                       name={field}
                       value={dish[field]}
@@ -222,6 +222,7 @@ class AddDishForm extends Component {
                       }}
                       placeholder={field}
                       type='text'
+                      required
                     />
                     <hr></hr>
                     <br></br>
@@ -305,10 +306,9 @@ class AddDishForm extends Component {
               </div>
               <br></br>
               <button
+              type='submit'
                 className='btn btn-primary btn-details'
-                onClick={this.handleSubmit}
-              >
-                Submit
+              > Submit
               </button>
             </div>
           </div>

@@ -21,6 +21,7 @@ class TextField extends Component {
           onChange={this.handleChange}
           placeholder='iname'
           type='text'
+          required
         />
         <hr></hr>
         <input
