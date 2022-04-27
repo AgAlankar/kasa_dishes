@@ -5,11 +5,10 @@ export default function About() {
     <section className="section about-section">
       <h1 className="section-title">about us</h1>
       <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae
-        repudiandae architecto qui adipisci in officiis, aperiam sequi atque
-        perferendis eos, autem maiores nisi saepe quisquam hic odio consectetur
-        nobis veritatis quasi explicabo obcaecati doloremque? Placeat ratione
-        hic aspernatur error blanditiis?
+      This project is meant to help out foodies everywhere by providing an easy and fast way of looking up dishes, taking into account the type and cuisine you are craving, ingredients and equipment that would be needed, the nutrition it provides, and much more. 
+      <br></br>Often, we are left with ingredients that we don’t know what to cook with: in such situations, this application can help you find new recipes to explore and enjoy!
+      <br></br>Built with ReactJS, NodeJS, MySQL, Express.
+
       </p>
     </section>
   );
