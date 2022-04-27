@@ -35,7 +35,7 @@ const AppProvider = ({ children }) => {
             id: fid,
             name: dname,
             image: imageurl,
-            info: expertise,
+            // info: expertise,
             glass: veg ? 'Veg' : 'Non-veg',
           }
         })
