@@ -44,7 +44,7 @@ export default function ViewReqs() {
             </p>
 
               <p>
-              <span>Recipe :</span> <a className='food-dataa' href={`https://${item.recipieurl}`} >{item.recipieurl}</a>
+              <span>Recipe :</span> <a className='food-dataa' href={`${item.recipieurl}`} >{item.recipieurl}</a>
             </p>
 
 
