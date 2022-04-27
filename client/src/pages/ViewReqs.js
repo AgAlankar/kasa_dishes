@@ -25,21 +25,27 @@ export default function ViewReqs() {
     setLoaded(true)
   }
   return (
-    <div>
-      <h1>View Requests</h1>
-      {reqList.map((item) => (
-        <div key={item.RID}>
-          <p>{item.RName}</p>
-          <p>{item.recipieurl}</p>
-          <button
-            onClick={() => {
-              delReq(item.RID)
-            }}
-          >
-            Delete
-          </button>
+    <section className='section search'>
+      <form className='search-form'>
+        <div className='form-control row'>
+          <h1>View Requests</h1>
+          {reqList.map((item) => (
+            <div key={item.RID}>
+              <p>{item.RName}</p>
+              <p>{item.recipieurl}</p>
+
+              <button
+                className='btn btn-primary btn-details'
+                onClick={() => {
+                  delReq(item.RID)
+                }}
+              >
+                Delete
+              </button>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </form>
+    </section>
   )
 }

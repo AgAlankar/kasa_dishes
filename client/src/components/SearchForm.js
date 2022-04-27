@@ -39,18 +39,21 @@ export default function SearchForm() {
     const tempTerm = { dname: nameVal.current.value }
     if (cuisVal.current.value !== '') {
       tempTerm['cuisine'] = cuisVal.current.value
-    }
-    if (vegVal.current.value !== '') {
-      tempTerm['veg'] = vegVal.current.value
+    }    
+    let vCurr = vegVal.current;
+    if(vCurr.state?.value?.value  && vCurr.state.value.value !== ''){
+      tempTerm['veg'] = vCurr.state.value.value;
     }
     if (catVal.current.value !== '') {
       tempTerm['category'] = catVal.current.value
     }
-    if (expVal.current.value !== '') {
-      tempTerm['maxexp'] = expVal.current.value
+    let eCurr = expVal.current;
+    if(eCurr.state?.value?.value  && eCurr.state.value.value !== ''){
+      tempTerm['maxexp'] = eCurr.state.value.value;
     }
-    if (prepVal.current.value !== '') {
-      tempTerm['maxprep'] = prepVal.current.value
+    let pCurr = prepVal.current;
+    if(pCurr.state?.value?.value  && pCurr.state.value.value !== ''){
+      tempTerm['maxprep'] = pCurr.state.value.value;
     }
     if (
       calVal.current.value !== '' &&
@@ -76,11 +79,11 @@ export default function SearchForm() {
     ) {
       tempTerm['maxcarb'] = carbVal.current.value
     }
-
     let iCurr = ingrVal.current;
-    if(iCurr.state.value !== null && iCurr.state.value.length>0){
+    if(iCurr.state?.value && iCurr.state.value.length>0){
       tempTerm['ingredients'] = ingrVal.current.state.value.map(x=>x.value);
     }
+    console.log(tempTerm);
     setSearchTerm({...tempTerm})
 
   }
@@ -163,7 +166,6 @@ export default function SearchForm() {
                 name='cuis'
                 id='cuis'
                 ref={cuisVal}
-                onChange={searchDish}
               />
               <br></br>
               <label htmlFor='veg'>Filter by veg/non-veg</label>
@@ -172,7 +174,6 @@ export default function SearchForm() {
                 id='veg'
                 options={vornv}
                 ref={vegVal}
-                onChange={searchDish}
               />
               <br></br>
               <label htmlFor='cat'>Filter by category</label>
@@ -181,7 +182,6 @@ export default function SearchForm() {
                 name='cat'
                 id='cat'
                 ref={catVal}
-                onChange={searchDish}
               />
               <br></br>
               <label htmlFor='exp'>Filter by maximum expertise</label>
@@ -191,7 +191,6 @@ export default function SearchForm() {
                 id='exp'
                 options={expva}
                 ref={expVal}
-                onChange={searchDish}
               />
 
               <br></br>
@@ -201,7 +200,6 @@ export default function SearchForm() {
                 id='prep'
                 options={prepva}
                 ref={prepVal}
-                onChange={searchDish}
               />
 
               <br></br>
@@ -211,7 +209,6 @@ export default function SearchForm() {
                 name='cal'
                 id='cal'
                 ref={calVal}
-                onChange={searchDish}
               />
               <br></br>
               <label htmlFor='fat'>Filter by max fat value</label>
@@ -220,7 +217,6 @@ export default function SearchForm() {
                 name='fat'
                 id='fat'
                 ref={fatVal}
-                onChange={searchDish}
               />
               <br></br>
               <label htmlFor='prot'>Filter by min protein value</label>
@@ -229,7 +225,6 @@ export default function SearchForm() {
                 name='prot'
                 id='prot'
                 ref={protVal}
-                onChange={searchDish}
               />
               <br></br>
               <label htmlFor='carb'>Filter by max carb value</label>
@@ -238,7 +233,6 @@ export default function SearchForm() {
                 name='carb'
                 id='carb'
                 ref={carbVal}
-                onChange={searchDish}
               />
                   
             <label htmlFor='ingr'>Ingredients</label>
@@ -248,7 +242,7 @@ export default function SearchForm() {
               options={ingrs}
               isMulti
             />
-            <button onClick={searchDish}>Filter by ingredients</button>
+            <button onClick={searchDish}>Apply Filters</button>
             </div>
           )}
         </div>
