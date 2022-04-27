@@ -8,7 +8,6 @@ class TextField2 extends Component {
       [name]: value,
     })
   }
-
   render() {
     const { value: equipment } = this.props
     return (
@@ -21,6 +20,7 @@ class TextField2 extends Component {
           onChange={this.handleChange}
           placeholder='ename'
           type='text'
+          required
         />
         <hr></hr>
       </React.Fragment>
