@@ -124,9 +124,9 @@ export default function Login() {
             >
               Login
             </Button>
+            <br></br>
+            <b>{!ok && 'Incorrect credentials'}</b>
           </Form>
-
-          {!ok && 'Incorrect credentials'}
         </div>
       </div>
     </section>

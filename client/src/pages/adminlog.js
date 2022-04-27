@@ -101,8 +101,9 @@ export default function Adminlog() {
             >
               Login
             </Button>
+            <br></br>
+            <b>{!ok && 'Incorrect credentials'}</b>
           </Form>
-          {!ok && 'Incorrect credentials'}
         </div>
       </div>
     </section>

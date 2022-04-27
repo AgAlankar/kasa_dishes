@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import TextField from '../components/TextField'
+import TextField2 from '../components/TextField2'
 
 class AddDishForm extends Component {
   constructor(props) {
@@ -24,6 +25,12 @@ class AddDishForm extends Component {
           key: Date.now(),
           iname: '',
           restrictions: '',
+        },
+      ],
+      equipments: [
+        {
+          key: Date.now(),
+          ename: '',
         },
       ],
     }
@@ -81,6 +88,27 @@ class AddDishForm extends Component {
     const data = await response.json()
     console.log(data)
   }
+
+  equipAdd = async (equip) => {
+    const url = 'http://localhost:8080/api/equipments/'
+    console.log(this.state.dish.fid)
+    const optbody = {
+      FID: this.state.dish.fid,
+      ...equip,
+    }
+    console.log(optbody)
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(optbody),
+    }
+    const response = await fetch(`${url}`, options)
+    const data = await response.json()
+    console.log(data)
+  }
+
   handleSubmit = async (e) => {
     e.preventDefault()
     await this.dishAdd()
@@ -90,7 +118,13 @@ class AddDishForm extends Component {
         await this.ingrAdd({ ...ingr, IName: ingr.iname })
       }
     }
-    window.location.reload()
+
+    for (let equip of this.state.equipments) {
+      if (equip.ename !== '') {
+        await this.equipAdd({ ...equip, EName: equip.ename })
+        window.location.reload()
+      }
+    }
   }
 
   onChangeDish = (field, val) => {
@@ -99,6 +133,7 @@ class AddDishForm extends Component {
       dish: { ...prevState.dish, [field]: val },
     }))
   }
+
   onChangeIngr = (inputIngredient) => {
     this.setState((prevState) => {
       const newIngredient = prevState.ingredients.map((element) => {
@@ -108,6 +143,18 @@ class AddDishForm extends Component {
       return {
         ...prevState,
         ingredients: newIngredient,
+      }
+    })
+  }
+  onChangeEquip = (inputEquipment) => {
+    this.setState((prevState) => {
+      const newEquipment = prevState.equipments.map((element) => {
+        if (element.key === inputEquipment.key) return inputEquipment
+        return element
+      })
+      return {
+        ...prevState,
+        equipments: newEquipment,
       }
     })
   }
@@ -123,6 +170,16 @@ class AddDishForm extends Component {
       }),
     }))
   }
+  addEquipment = () => {
+    const { ename } = this.state
+    this.setState((prevState) => ({
+      ...prevState,
+      equipments: prevState.equipments.concat({
+        key: Date.now(),
+        ename,
+      }),
+    }))
+  }
 
   removeElement = (id) => {
     this.setState((prevState) => ({
@@ -132,9 +189,17 @@ class AddDishForm extends Component {
       ),
     }))
   }
+  removeEquipment = (id) => {
+    this.setState((prevState) => ({
+      ...prevState,
+      equipments: prevState.equipments.filter(
+        (equipment) => equipment.key !== id
+      ),
+    }))
+  }
 
   render() {
-    const { dish, ingredients } = this.state
+    const { dish, ingredients, equipments } = this.state
     // console.log(Object.keys(dish))
     return (
       <section className='section search'>
@@ -199,6 +264,38 @@ class AddDishForm extends Component {
                       type='button'
                       onClick={() => this.removeElement(ingredient.key)}
                       disabled={ingredients.length <= 1}
+                    >
+                      Remove
+                    </button>
+                    <br></br>
+                  </React.Fragment>
+                ))}
+              </div>
+              <br></br>
+
+              <button
+                className='btn btn-primary btn-details'
+                type='button'
+                onClick={this.addEquipment}
+              >
+                Add Equipment
+              </button>
+
+              <div className='col-md-12 form-group'>
+                {equipments.map((equipment) => (
+                  <React.Fragment key={equipment.key}>
+                    <TextField2
+                      value={equipment}
+                      onChange={(inputEquipment) =>
+                        this.onChangeEquip(inputEquipment)
+                      }
+                    ></TextField2>
+                    <br></br>
+                    <button
+                      className='btn btn-primary btn-details'
+                      type='button'
+                      onClick={() => this.removeEquipment(equipment.key)}
+                      disabled={equipment.length <= 1}
                     >
                       Remove
                     </button>
