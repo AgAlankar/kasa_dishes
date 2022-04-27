@@ -27,18 +27,24 @@ export default function SingleDish() {
           },
         }
 
-        const response2 = await fetch(`http://localhost:8080/api/dishes/ingredients/${id}`, options)
+        const response2 = await fetch(
+          `http://localhost:8080/api/dishes/ingredients/${id}`,
+          options
+        )
         const data2 = await response2.json()
         console.log(data2)
 
-        const response3 = await fetch(`http://localhost:8080/api/dishes/equipments/${id}`, options)
+        const response3 = await fetch(
+          `http://localhost:8080/api/dishes/equipments/${id}`,
+          options
+        )
         const data3 = await response3.json()
         // console.log(data3)
         // const response4 =await fetch(`http://localhost:8080/api/dishes/equipments/${id}`);
 
         if (food) {
           const {
-            FID:fid,
+            FID: fid,
             dname: name,
             ImageURL: image,
             Cuisine: info,
@@ -79,11 +85,11 @@ export default function SingleDish() {
             // ingredients,
           }
           // console.log(newDish)
-          let u = getUser();
-          if(u){
+          let u = getUser()
+          if (u) {
             // console.log(u.favs.map(x=>x.fid))
-            if(u.favs.map(x=>x.fid).includes(newDish.fid)) setFav(1);
-            else setFav(0);
+            if (u.favs.map((x) => x.fid).includes(newDish.fid)) setFav(1)
+            else setFav(0)
           }
           setDish(newDish)
           setIngredient(data2)
@@ -147,13 +153,13 @@ export default function SingleDish() {
       proteins,
       carbs,
     } = dish
-   
-    const handleFav = async () =>{
+
+    const handleFav = async () => {
       let url = 'http://localhost:8080/api/users/'
       // console.log(this.state)
       const optbody = {
         uname: getUser().uname,
-        fid: dish.fid
+        fid: dish.fid,
       }
       // console.log(optbody)
       const options = {
@@ -162,46 +168,62 @@ export default function SingleDish() {
         },
         body: JSON.stringify(optbody),
       }
-      if(fav===0){
-        url+= 'fav';
-        options.method = 'POST';
-        const u = getUser();
+      if (fav === 0) {
+        url += 'fav'
+        options.method = 'POST'
+        const u = getUser()
         // console.log(...(u.favs));
-        u.favs.push({fid: dish.fid,dname:dish.name});
-        window.localStorage.setItem('sessUser',JSON.stringify(u));
+        u.favs.push({ fid: dish.fid, dname: dish.name })
+        window.localStorage.setItem('sessUser', JSON.stringify(u))
         // console.log(...(getUser().favs));
-        setFav(1);
-      }else{
-        url+= 'del';
-        options.method = 'DELETE';
-        const u = getUser();
+        setFav(1)
+      } else {
+        url += 'del'
+        options.method = 'DELETE'
+        const u = getUser()
         // console.log(...(u.favs));
-        u.favs = u.favs.filter(x => x.fid !== dish.fid);
-        window.localStorage.setItem('sessUser',JSON.stringify(u));
+        u.favs = u.favs.filter((x) => x.fid !== dish.fid)
+        window.localStorage.setItem('sessUser', JSON.stringify(u))
         // console.log(...(getUser().favs));
-        setFav(0);
+        setFav(0)
       }
       const response = await fetch(`${url}`, options)
       // const data = await response.json()
-      console.log(response.status);
+      console.log(response.status)
     }
- 
+
     return (
       <section className='section dish-section'>
         <Link to='/' className='btn btn-primary'>
           back home
         </Link>
-        <h2 className='section-title'>{name} {fav===0? '☆' : fav===1? '⭐' : ''}</h2>
-        {!getAdmin() &&(
-          fav===-1? 
-          <span classname='food-data'>Login to add to favourites</span>
-          : fav ===0?
-          <span><button className='btn btn-primary btn-details' onClick={handleFav}>Favourite</button></span>
-          :
-          <span><button className='btn btn-primary btn-details'onClick={handleFav}>Unfavourite</button></span>
-        )
-        }
-        <br></br><br></br>
+        <h2 className='section-title'>
+          {name} {fav === 0 ? '☆' : fav === 1 ? '⭐' : ''}
+        </h2>
+        {!getAdmin() &&
+          (fav === -1 ? (
+            <span classname='food-data'>Login to add to favourites</span>
+          ) : fav === 0 ? (
+            <span>
+              <button
+                className='btn btn-primary btn-details'
+                onClick={handleFav}
+              >
+                Favourite
+              </button>
+            </span>
+          ) : (
+            <span>
+              <button
+                className='btn btn-primary btn-details'
+                onClick={handleFav}
+              >
+                Unfavourite
+              </button>
+            </span>
+          ))}
+        <br></br>
+        <br></br>
         <div className='food'>
           <img src={image} alt={name}></img>
           <div className='food-info'>
@@ -216,7 +238,7 @@ export default function SingleDish() {
             </p>
             <p>
               <span className='food-data'>Veg :</span>
-              {vegg === '1' ? 'Veg' : 'Non-Veg'}
+              {vegg === 1 ? 'Veg' : 'Non-Veg'}
             </p>
             <p>
               <span className='food-data'>Expertise :</span> {expertise}
@@ -237,22 +259,33 @@ export default function SingleDish() {
               <span className='food-data'>Carbs :</span> {carbs}
             </p>
             <p>
-              <span className='food-data'>Recipe :</span> <a className='food-dataa' onClick={()=> window.open(`${recipeurl}`, "_blank")} >{recipeurl}</a>
+              <span className='food-data'>Recipe :</span>{' '}
+              <a
+                className='food-dataa'
+                onClick={() => window.open(`${recipeurl}`, '_blank')}
+              >
+                {recipeurl}
+              </a>
             </p>
             <p>
               <span className='food-data'>Views :</span> {views}
             </p>
             <p>
               <span className='food-data'>ingredients :</span>
-              {ingredient.map(x => x.iname).join(", ")}
+              {ingredient.map((x) => x.iname).join(', ')}
             </p>
             <p>
               <span className='food-data'>equipments :</span>
-              {equipment.map(x => x.ename).join(", ")}
+              {equipment.map((x) => x.ename).join(', ')}
             </p>
             <p>
               <span className='food-data'>Restrictions :</span>
-              {ingredient.map(x => x.restrictions).filter((val,ind,self)=>val!=null&&self.indexOf(val)===ind).join(", ")}
+              {ingredient
+                .map((x) => x.restrictions)
+                .filter(
+                  (val, ind, self) => val != null && self.indexOf(val) === ind
+                )
+                .join(', ')}
             </p>
           </div>
         </div>
