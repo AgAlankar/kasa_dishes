@@ -17,7 +17,7 @@ export default function SingleDish() {
       try {
         const response = await fetch(`http://localhost:8080/api/dishes/${id}`)
         const data = await response.json()
-        console.log(data)
+        // console.log(data)
         const food = data
 
         const options = {
@@ -29,11 +29,11 @@ export default function SingleDish() {
 
         const response2 = await fetch(`http://localhost:8080/api/dishes/ingredients/${id}`, options)
         const data2 = await response2.json()
-        console.log(data2)
+        // console.log(data2)
 
         const response3 = await fetch(`http://localhost:8080/api/dishes/equipments/${id}`, options)
         const data3 = await response3.json()
-        console.log(data3)
+        // console.log(data3)
       
         if (food) {
           const {
@@ -77,10 +77,10 @@ export default function SingleDish() {
             // instructions,
             // ingredients,
           }
-          console.log(newDish)
+          // console.log(newDish)
           let u = getUser();
           if(u){
-            console.log(u.favs.map(x=>x.fid))
+            // console.log(u.favs.map(x=>x.fid))
             if(u.favs.map(x=>x.fid).includes(newDish.fid)) setFav(1);
             else setFav(0);
           }
@@ -165,19 +165,24 @@ export default function SingleDish() {
         url+= 'fav';
         options.method = 'POST';
         const u = getUser();
-        u.favs.push({fid: dish.fid,dname:dish.dname});
+        // console.log(...(u.favs));
+        u.favs.push({fid: dish.fid,dname:dish.name});
         window.localStorage.setItem('sessUser',JSON.stringify(u));
+        // console.log(...(getUser().favs));
+        setFav(1);
       }else{
         url+= 'del';
         options.method = 'DELETE';
         const u = getUser();
+        // console.log(...(u.favs));
         u.favs = u.favs.filter(x => x.fid !== dish.fid);
         window.localStorage.setItem('sessUser',JSON.stringify(u));
+        // console.log(...(getUser().favs));
+        setFav(0);
       }
       const response = await fetch(`${url}`, options)
-      const data = await response.json()
-      console.log(data);
-      window.location.reload()
+      // const data = await response.json()
+      console.log(response.status);
     }
  
     return (
@@ -185,14 +190,14 @@ export default function SingleDish() {
         <Link to='/' className='btn btn-primary'>
           back home
         </Link>
-        <h2 className='section-title'>{name}</h2>
+        <h2 className='section-title'>{name} {fav===0? '☆' : fav===1? '⭐' : ''}</h2>
         {
           fav===-1? 
           <span>Login to add to favourites</span>
           : fav ===0?
-          <span>Add to favourites: <button onClick={handleFav}>☆</button></span>
+          <span><button onClick={handleFav}>Favourite</button></span>
           :
-          <span>Remove from favourites: <button onClick={handleFav}>⭐</button></span>
+          <span><button onClick={handleFav}>Unfavourite</button></span>
         }
         <br></br><br></br>
         <div className='food'>
