@@ -1,11 +1,13 @@
 import React from 'react'
 import Loading from '../components/Loading'
 import { useParams, Link } from 'react-router-dom'
+import { getUser } from '../sessHandler'
 
 export default function SingleDish() {
   const { id } = useParams()
   const [loading, setLoading] = React.useState(false)
   const [dish, setDish] = React.useState(null)
+  const [fav, setFav] = React.useState(-1)
   const [ingredient, setIngredient] = React.useState([])
   const [equipment, setEquipment] = React.useState([])
 
@@ -76,6 +78,12 @@ export default function SingleDish() {
             // ingredients,
           }
           console.log(newDish)
+          let u = getUser();
+          if(u){
+            console.log(u.favs.map(x=>x.fid))
+            if(u.favs.map(x=>x.fid).includes(newDish.fid)) setFav(1);
+            else setFav(0);
+          }
           setDish(newDish)
           setIngredient(data2)
           setEquipment(data3)
@@ -139,6 +147,38 @@ export default function SingleDish() {
       carbs,
     } = dish
    
+    const handleFav = async () =>{
+      let url = 'http://localhost:8080/api/users/'
+      // console.log(this.state)
+      const optbody = {
+        uname: getUser().uname,
+        fid: dish.fid
+      }
+      // console.log(optbody)
+      const options = {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(optbody),
+      }
+      if(fav===0){
+        url+= 'fav';
+        options.method = 'POST';
+        const u = getUser();
+        u.favs.push({fid: dish.fid,dname:dish.dname});
+        window.localStorage.setItem('sessUser',JSON.stringify(u));
+      }else{
+        url+= 'del';
+        options.method = 'DELETE';
+        const u = getUser();
+        u.favs = u.favs.filter(x => x.fid !== dish.fid);
+        window.localStorage.setItem('sessUser',JSON.stringify(u));
+      }
+      const response = await fetch(`${url}`, options)
+      const data = await response.json()
+      console.log(data);
+      window.location.reload()
+    }
  
     return (
       <section className='section dish-section'>
@@ -146,6 +186,15 @@ export default function SingleDish() {
           back home
         </Link>
         <h2 className='section-title'>{name}</h2>
+        {
+          fav===-1? 
+          <span>Login to add to favourites</span>
+          : fav ===0?
+          <span>Add to favourites: <button onClick={handleFav}>☆</button></span>
+          :
+          <span>Remove from favourites: <button onClick={handleFav}>⭐</button></span>
+        }
+        <br></br><br></br>
         <div className='food'>
           <img src={image} alt={name}></img>
           <div className='food-info'>
