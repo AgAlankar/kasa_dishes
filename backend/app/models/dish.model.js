@@ -180,19 +180,45 @@ class Dish {
     }
 
     static remove(fid, result) {
-        sql.query("DELETE FROM dish WHERE fid = ?", fid, (err, res) => {
-            if (err) {
-                console.log("error: ", err);
+        sql.query(`DELETE FROM madeusing WHERE fid = ${fid}`, (err, res) =>{
+            if(err){
+                console.log("Eror: ", err);
                 result(null, err);
                 return;
+            } else {
+                sql.query(`DELETE FROM madeof WHERE fid = ${fid}`, (err, res) =>{
+                    if(err){
+                        console.log("Eror: ", err);
+                        result(null, err);
+                        return;
+                    } else {
+                        sql.query("DELETE FROM favlookup WHERE fid = ?", fid, (err, res) => {
+                            {
+                                if(err){
+                                    console.log("Eror: ", err);
+                                    result(null, err);
+                                    return;
+                                } else {
+                                    sql.query("DELETE FROM dish WHERE fid = ?", fid, (err, res) => {
+                                        if (err) {
+                                            console.log("error: ", err);
+                                            result(null, err);
+                                            return;
+                                        }
+                                        if (res.affectedRows === 0) {
+                                            // not found Dish with the fid
+                                            result({ kind: "not_found" }, null);
+                                            return;
+                                        }
+                                        console.log("deleted dish with fid: ", fid);
+                                        result(null, res);
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
             }
-            if (res.affectedRows === 0) {
-                // not found Dish with the fid
-                result({ kind: "not_found" }, null);
-                return;
-            }
-            console.log("deleted dish with fid: ", fid);
-            result(null, res);
         });
     }
     
@@ -237,7 +263,7 @@ class Dish {
     }
 
     static getIngredients(FID, result){
-        let query = `SELECT i.iname, i.iid from madeof m, ingredients i WHERE m.fid = ${FID} AND m.iid = i.iid`;
+        let query = `SELECT i.iname, i.iid,i.restrictions from madeof m, ingredients i WHERE m.fid = ${FID} AND m.iid = i.iid`;
         console.log(query);
         sql.query(query, (err, res) => {
             if(err){

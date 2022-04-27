@@ -16,9 +16,9 @@ export default function Navbar() {
           <li>
             <Link to='/about'>about</Link>
           </li>
-          <li>
+          {getUser() && <li>
             <Link to='/Requestform'>Request</Link>
-          </li>
+          </li>}
           <li>
             {getUser() ? (
               <Link to='/userdash'>Dashboard</Link>
@@ -26,6 +26,7 @@ export default function Navbar() {
               <Link to='/AdminDash'>Dashboard</Link>
             ) : (
               <div>
+                <Link to='/UserReg'>Register</Link>
                 <Link to='/login'>Login</Link>
                 <Link to='/adminlogin'>Admin Login</Link>
               </div>

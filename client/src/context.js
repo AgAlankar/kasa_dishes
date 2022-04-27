@@ -28,14 +28,14 @@ const AppProvider = ({ children }) => {
       const food = data
       if (food) {
         const newDishes = food.map((item) => {
-          console.log(item);
+          // console.log(item);
           const { fid, dname, imageurl, expertise, veg } = item
 
           return {
             id: fid,
             name: dname,
             image: imageurl,
-            info: expertise,
+            // info: expertise,
             glass: veg ? 'Veg' : 'Non-veg',
           }
         })

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useGlobalContext } from '../context'
 import Select from 'react-select'
 export default function SearchForm() {
-  const [showFilt,setShowFilt] = useState(false)
-  const [ingrs,setIngrs] = useState([])
+  const [showFilt, setShowFilt] = useState(false)
+  const [ingrs, setIngrs] = useState([])
   const { setSearchTerm } = useGlobalContext()
   const nameVal = React.useRef('')
   const cuisVal = React.useRef('')
@@ -30,30 +30,28 @@ export default function SearchForm() {
       protVal.current.focus()
       carbVal.current.focus()
       ingrVal.current.focus()
-    }catch{
-
-    }
+    } catch {}
   }, [])
 
   function searchDish() {
     const tempTerm = { dname: nameVal.current.value }
     if (cuisVal.current.value !== '') {
       tempTerm['cuisine'] = cuisVal.current.value
-    }    
-    let vCurr = vegVal.current;
-    if(vCurr.state?.value?.value  && vCurr.state.value.value !== ''){
-      tempTerm['veg'] = vCurr.state.value.value;
+    }
+    let vCurr = vegVal.current
+    if (vCurr.state?.value?.value && vCurr.state.value.value !== '') {
+      tempTerm['veg'] = vCurr.state.value.value
     }
     if (catVal.current.value !== '') {
       tempTerm['category'] = catVal.current.value
     }
-    let eCurr = expVal.current;
-    if(eCurr.state?.value?.value  && eCurr.state.value.value !== ''){
-      tempTerm['maxexp'] = eCurr.state.value.value;
+    let eCurr = expVal.current
+    if (eCurr.state?.value?.value && eCurr.state.value.value !== '') {
+      tempTerm['maxexp'] = eCurr.state.value.value
     }
-    let pCurr = prepVal.current;
-    if(pCurr.state?.value?.value  && pCurr.state.value.value !== ''){
-      tempTerm['maxprep'] = pCurr.state.value.value;
+    let pCurr = prepVal.current
+    if (pCurr.state?.value?.value && pCurr.state.value.value !== '') {
+      tempTerm['maxprep'] = pCurr.state.value.value
     }
     if (
       calVal.current.value !== '' &&
@@ -79,36 +77,32 @@ export default function SearchForm() {
     ) {
       tempTerm['maxcarb'] = carbVal.current.value
     }
-    let iCurr = ingrVal.current;
-    if(iCurr.state?.value && iCurr.state.value.length>0){
-      tempTerm['ingredients'] = ingrVal.current.state.value.map(x=>x.value);
+    let iCurr = ingrVal.current
+    if (iCurr.state?.value && iCurr.state.value.length > 0) {
+      tempTerm['ingredients'] = ingrVal.current.state.value.map((x) => x.value)
     }
-    console.log(tempTerm);
-    setSearchTerm({...tempTerm})
-
+    console.log(tempTerm)
+    setSearchTerm({ ...tempTerm })
   }
   function handleSubmit(e) {
     e.preventDefault()
   }
-  async function toggleFilt(){
-    if(showFilt){
-      setSearchTerm({dname:nameVal.current.value});
+  async function toggleFilt() {
+    if (showFilt) {
+      window.location.reload();
     }
-    setShowFilt(!showFilt);
+    setShowFilt(!showFilt)
     try {
-      const ingrList = await loadIngr();
-      console.log(ingrList);
-      setIngrs(ingrList);
-    } catch (error) {
-      
-    }
+      const ingrList = await loadIngr()
+      console.log(ingrList)
+      setIngrs(ingrList)
+    } catch (error) {}
   }
-  async function loadIngr(){
-    const url = "http://localhost:8080/api/ingredients";
-    const response = await fetch(url);
-    const data = await response.json();
-    return data.map(x=>({label:x["IName"],value:x["IName"]}));
-
+  async function loadIngr() {
+    const url = 'http://localhost:8080/api/ingredients'
+    const response = await fetch(url)
+    const data = await response.json()
+    return data.map((x) => ({ label: x['IName'], value: x['IName'] }))
   }
 
   const vornv = [
@@ -153,7 +147,6 @@ export default function SearchForm() {
             onChange={searchDish}
           />
           <br></br> <br></br> <hr></hr> <br></br>
-
           <button onClick={toggleFilt} className='btn btn-primary btn-details'>
             {showFilt ? 'Hide' : 'Show'} Filter
           </button>
@@ -161,71 +154,31 @@ export default function SearchForm() {
             <div>
               <br></br>
               <label htmlFor='cuis'>Filter by cuisine</label>
-              <input
-                type='text'
-                name='cuis'
-                id='cuis'
-                ref={cuisVal}
-              />
+              <input type='text' name='cuis' id='cuis' ref={cuisVal} />
               <br></br>
               <label htmlFor='veg'>Filter by veg/non-veg</label>
-              <Select
-                name='veg'
-                id='veg'
-                options={vornv}
-                ref={vegVal}
-              />
+              <Select name='veg' id='veg' options={vornv} ref={vegVal} />
               <br></br>
               <label htmlFor='cat'>Filter by category</label>
-              <input
-                type='text'
-                name='cat'
-                id='cat'
-                ref={catVal}
-              />
+              <input type='text' name='cat' id='cat' ref={catVal} />
               <br></br>
               <label htmlFor='exp'>Filter by maximum expertise</label>
 
-              <Select
-                name='exp'
-                id='exp'
-                options={expva}
-                ref={expVal}
-              />
+              <Select name='exp' id='exp' options={expva} ref={expVal} />
 
               <br></br>
               <label htmlFor='prep'>Filter by maximum prep time</label>
-              <Select
-                name='prep'
-                id='prep'
-                options={prepva}
-                ref={prepVal}
-              />
+              <Select name='prep' id='prep' options={prepva} ref={prepVal} />
 
               <br></br>
               <label htmlFor='cal'>Filter by max calorie value</label>
-              <input
-                type='text'
-                name='cal'
-                id='cal'
-                ref={calVal}
-              />
+              <input type='text' name='cal' id='cal' ref={calVal} />
               <br></br>
               <label htmlFor='fat'>Filter by max fat value</label>
-              <input
-                type='text'
-                name='fat'
-                id='fat'
-                ref={fatVal}
-              />
+              <input type='text' name='fat' id='fat' ref={fatVal} />
               <br></br>
               <label htmlFor='prot'>Filter by min protein value</label>
-              <input
-                type='text'
-                name='prot'
-                id='prot'
-                ref={protVal}
-              />
+              <input type='text' name='prot' id='prot' ref={protVal} />
               <br></br>
               <label htmlFor='carb'>Filter by max carb value</label>
               <input
@@ -235,14 +188,15 @@ export default function SearchForm() {
                 ref={carbVal}
               />
                   
-            <label htmlFor='ingr'>Ingredients</label>
+            <label htmlFor='ingr'>Filter by Ingredients</label>
             <Select
               ref={ingrVal}
               name="ingr"
               options={ingrs}
               isMulti
             />
-            <button onClick={searchDish}>Apply Filters</button>
+            <br></br>
+            <button className='btn btn-primary btn-details' onClick={searchDish}>Apply Filters</button>
             </div>
           )}
         </div>

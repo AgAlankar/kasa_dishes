@@ -69,6 +69,10 @@ export default function Login() {
         }
         localStorage.setItem('sessUser', JSON.stringify(sessUser))
         setGo(true)
+        const u = window.localStorage.getItem('sessAdmin')
+        if (u) {
+          window.localStorage.removeItem('sessAdmin')
+        }
       } else {
         setOk(false)
       }
@@ -124,9 +128,9 @@ export default function Login() {
             >
               Login
             </Button>
+            <br></br>
+            <b>{!ok && 'Incorrect credentials'}</b>
           </Form>
-
-          {!ok && 'Incorrect credentials'}
         </div>
       </div>
     </section>
