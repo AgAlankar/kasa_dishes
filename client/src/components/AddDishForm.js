@@ -28,15 +28,46 @@ class AddDishForm extends Component {
       ],
     }
   }
-
-  handleSubmit = async () => {
+  setStateDish = async (newDish) => {
+    await this.setState({ dish: newDish })
+  }
+  dishAdd = async () => {
     const url = 'http://localhost:8080/api/dishes/'
     // console.log(this.state)
     const optbody = {
       dish: {
         ...this.state.dish,
       },
-      ingredients: [...this.state.ingredients],
+    }
+    console.log(optbody)
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json;charset=utf-8',
+      },
+      body: JSON.stringify(optbody),
+    }
+    const response = await fetch(`${url}`, options)
+    const data = await response.json()
+    const parsebetter = (x) =>
+      isNaN(parseFloat(x))
+        ? isNaN(parseInt(x))
+          ? x.substring(1, x.length - 1)
+          : parseInt(x)
+        : parseFloat(x)
+    for (let k of Object.keys(data)) {
+      data[k] = parsebetter(data[k])
+    }
+    // console.log(data)
+    await this.setStateDish(data)
+    // console.log(this.state.dish)
+  }
+  ingrAdd = async (ingr) => {
+    const url = 'http://localhost:8080/api/ingredients/'
+    console.log(this.state.dish.fid)
+    const optbody = {
+      FID: this.state.dish.fid,
+      ...ingr,
     }
     console.log(optbody)
     const options = {
@@ -49,6 +80,16 @@ class AddDishForm extends Component {
     const response = await fetch(`${url}`, options)
     const data = await response.json()
     console.log(data)
+  }
+  handleSubmit = async (e) => {
+    e.preventDefault()
+    await this.dishAdd()
+    // window.localStorage.setItem('dish', JSON.stringify(this.state.dish))
+    for (let ingr of this.state.ingredients) {
+      if (ingr.iname !== '') {
+        await this.ingrAdd({ ...ingr, IName: ingr.iname })
+      }
+    }
     window.location.reload()
   }
 
