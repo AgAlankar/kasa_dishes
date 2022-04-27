@@ -13,9 +13,7 @@ function create(req, res) {
     _ingredients.IID = req.body.IID;
     _ingredients.IName = req.body.IName;
     _ingredients.restrictions = req.body.restrictions;
-    if(req.body.restrictions == "undefined")
-        _ingredients.restrictions = "";
-    console.log(_ingredients.restrictions);
+    // console.log(_ingredients.restrictions);
     const ingredients = new Ingredients(_ingredients);
     // console.log(ingredients);
     // Save ingredients in the database
