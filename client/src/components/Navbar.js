@@ -29,7 +29,7 @@ export default function Navbar() {
               <div>
                 <Link to='/UserReg'>Register</Link>
                 <Link to='/login'>Login</Link>
-                <Link to='/adminlogin'>Admin Login</Link>
+                <Link to='/adminlogin'>Admin-Login</Link>
               </div>
             )}
           </li>
