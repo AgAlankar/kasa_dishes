@@ -29,19 +29,15 @@ export default function ViewDishes() {
     <section className='section search'>
       <form className='search-form'>
         <div className='form-control row'>
-          <h1>Delete Dish</h1>
+        <label htmlFor='name'>DELETE A DISH</label>
           {dishList.map((item) => (
             <div key={item.FID}>
-              {item.dname}
-
-              <button
-                className='btn btn-primary btn-details'
+             <button className='btn btn-nprimary btn-details'
                 onClick={() => {
-                  delDish(item.FID)
-                }}
-              >
-                Delete
+                  delDish(item.FID)}}> {item.dname}
               </button>
+              <br></br>
+              <br></br>
             </div>
           ))}
         </div>

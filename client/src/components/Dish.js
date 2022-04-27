@@ -9,7 +9,6 @@ export default function Dish({ image, name, id, info, glass }) {
       <div className='dish-footer'>
         <h3>{name}</h3>
         <h4>{glass}</h4>
-        <p>{info}</p>
         <Link to={`/dish/${id}`} className='btn btn-primary btn-details'>
           details
         </Link>

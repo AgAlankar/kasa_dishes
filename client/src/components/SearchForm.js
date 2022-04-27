@@ -89,7 +89,7 @@ export default function SearchForm() {
   }
   async function toggleFilt() {
     if (showFilt) {
-      setSearchTerm({ dname: nameVal.current.value })
+      window.location.reload();
     }
     setShowFilt(!showFilt)
     try {

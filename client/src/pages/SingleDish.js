@@ -29,7 +29,7 @@ export default function SingleDish() {
 
         const response2 = await fetch(`http://localhost:8080/api/dishes/ingredients/${id}`, options)
         const data2 = await response2.json()
-        // console.log(data2)
+        console.log(data2)
 
         const response3 = await fetch(`http://localhost:8080/api/dishes/equipments/${id}`, options)
         const data3 = await response3.json()
@@ -251,7 +251,7 @@ export default function SingleDish() {
             </p>
             <p>
               <span className='food-data'>Restrictions :</span>
-              {ingredient.map(x => x.restrictions).join(", ")}
+              {ingredient.map(x => x.restrictions).filter(x=>x!==null).join(", ")}
             </p>
           </div>
         </div>
