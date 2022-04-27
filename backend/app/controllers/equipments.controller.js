@@ -17,13 +17,13 @@ function create(req, res) {
     // Save equipments in the database
     Equipments.create(equipments, (err, data) => {
         if(err && err.errno === 1062){
-            Equipments.findOne(req.body.IName, (err, data) => {
+            Equipments.findOne(req.body.EName, (err, data) => {
                 if (err){
                     res.status(500).send({
                         message : "Error retrieving equipment" });
                 } else {
-                    Equipments.madeUsing(FID, data.insertId);
-                    res.send({"ID" : data.insertId});
+                    Equipments.madeUsing(FID, data.EID);
+                    res.send({"ID" : data.EID});
                 }
             });
         } else if (err){
