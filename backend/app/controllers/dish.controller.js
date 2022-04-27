@@ -150,12 +150,25 @@ function getIngredients(req, res){
     Dish.getIngredients(FID, (err, data) => {
         if (err) {
             if (err.kind === "not_found") {
-                res.status(404).send({
-                message: `Not found any dish with these ingredients`,
-                });
+                res.send([]);
             } else {
                 res.status(500).send({
-                message: "Error retrieving dishes with these ingredients" + req.params.id,
+                message: "Error retrieving ingredients with dish ID " + req.params.id,
+                });
+            }
+        } else res.send(data);
+    })
+}
+
+function getEquipments(req, res){
+    const FID = req.params.id;
+    Dish.getEquipments(FID, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.send([]);
+            } else {
+                res.status(500).send({
+                message: "Error retrieving equipments with dish ID " + req.params.id,
                 });
             }
         } else res.send(data);
@@ -172,5 +185,6 @@ module.exports = {
     del,
     delAll,
     searchByIngredients,
-    getIngredients
+    getIngredients,
+    getEquipments
 };

@@ -13,6 +13,8 @@ function routes(app){
     router.get("/find", dishes.searchByIngredients);
     //Retrieve ingredients of a specific dish
     router.get("/ingredients/:id", dishes.getIngredients);
+    //Retrieve equipments of a specific dish
+    router.get("/equipments/:id", dishes.getEquipments);
     // Retrieve a single Dish with id
     router.get("/:id", dishes.findOne);
     // Update a Dish with id

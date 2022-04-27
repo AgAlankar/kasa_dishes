@@ -1,18 +1,24 @@
 import React from 'react'
 import Loading from '../components/Loading'
 import { useParams, Link } from 'react-router-dom'
+import { getUser } from '../sessHandler'
 
 export default function SingleDish() {
   const { id } = useParams()
   const [loading, setLoading] = React.useState(false)
   const [dish, setDish] = React.useState(null)
+  const [fav, setFav] = React.useState(-1)
   const [ingredient, setIngredient] = React.useState([])
+  const [equipment, setEquipment] = React.useState([])
 
   React.useEffect(() => {
     setLoading(true)
     async function getDish() {
       try {
         const response = await fetch(`http://localhost:8080/api/dishes/${id}`)
+        const data = await response.json()
+        // console.log(data)
+        const food = data
 
         const options = {
           method: 'GET',
@@ -20,13 +26,15 @@ export default function SingleDish() {
             'Content-Type': 'application/json;charset=utf-8',
           },
         }
+
         const response2 = await fetch(`http://localhost:8080/api/dishes/ingredients/${id}`, options)
         const data2 = await response2.json()
-        console.log(data2)
-        const data = await response.json()
-        console.log(data)
-        const food = data
+        // console.log(data2)
 
+        const response3 = await fetch(`http://localhost:8080/api/dishes/equipments/${id}`, options)
+        const data3 = await response3.json()
+        // console.log(data3)
+      
         if (food) {
           const {
             FID:fid,
@@ -69,9 +77,16 @@ export default function SingleDish() {
             // instructions,
             // ingredients,
           }
-          console.log(newDish)
+          // console.log(newDish)
+          let u = getUser();
+          if(u){
+            // console.log(u.favs.map(x=>x.fid))
+            if(u.favs.map(x=>x.fid).includes(newDish.fid)) setFav(1);
+            else setFav(0);
+          }
           setDish(newDish)
           setIngredient(data2)
+          setEquipment(data3)
         } else {
           setDish(null)
         }
@@ -132,13 +147,59 @@ export default function SingleDish() {
       carbs,
     } = dish
    
+    const handleFav = async () =>{
+      let url = 'http://localhost:8080/api/users/'
+      // console.log(this.state)
+      const optbody = {
+        uname: getUser().uname,
+        fid: dish.fid
+      }
+      // console.log(optbody)
+      const options = {
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(optbody),
+      }
+      if(fav===0){
+        url+= 'fav';
+        options.method = 'POST';
+        const u = getUser();
+        // console.log(...(u.favs));
+        u.favs.push({fid: dish.fid,dname:dish.name});
+        window.localStorage.setItem('sessUser',JSON.stringify(u));
+        // console.log(...(getUser().favs));
+        setFav(1);
+      }else{
+        url+= 'del';
+        options.method = 'DELETE';
+        const u = getUser();
+        // console.log(...(u.favs));
+        u.favs = u.favs.filter(x => x.fid !== dish.fid);
+        window.localStorage.setItem('sessUser',JSON.stringify(u));
+        // console.log(...(getUser().favs));
+        setFav(0);
+      }
+      const response = await fetch(`${url}`, options)
+      // const data = await response.json()
+      console.log(response.status);
+    }
  
     return (
       <section className='section dish-section'>
         <Link to='/' className='btn btn-primary'>
           back home
         </Link>
-        <h2 className='section-title'>{name}</h2>
+        <h2 className='section-title'>{name} {fav===0? '☆' : fav===1? '⭐' : ''}</h2>
+        {
+          fav===-1? 
+          <span>Login to add to favourites</span>
+          : fav ===0?
+          <span><button onClick={handleFav}>Favourite</button></span>
+          :
+          <span><button onClick={handleFav}>Unfavourite</button></span>
+        }
+        <br></br><br></br>
         <div className='food'>
           <img src={image} alt={name}></img>
           <div className='food-info'>
@@ -180,9 +241,12 @@ export default function SingleDish() {
               <span className='food-data'>Views :</span> {views}
             </p>
             <p>
-              
               <span className='food-data'>ingredients :</span>
               {ingredient.map(x => x.iname).join(", ")}
+            </p>
+            <p>
+              <span className='food-data'>equipments :</span>
+              {equipment.map(x => x.ename).join(", ")}
             </p>
           </div>
         </div>
