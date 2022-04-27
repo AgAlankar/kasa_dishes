@@ -101,6 +101,23 @@ Buttons
   border-radius: var(--mainBorderRadius);
   display: inline-block;
 }
+
+.btn-nprimary {
+  text-transform: uppercase;
+  letter-spacing: var(--mainSpacing);
+  color: var(--primaryColor);
+  border: 2px solid var(--primaryColor);
+  padding: 0.45rem 0.8rem;
+  display: inline-block;
+  transition: var(--mainTransition);
+  cursor: pointer;
+  font-size: 0.8rem;
+  background: transparent;
+  border-radius: var(--mainBorderRadius);
+  display: inline-block;
+}
+
+
 .btn:hover {
   background: var(--primaryColor);
   color: var(--mainWhite);
@@ -119,9 +136,20 @@ Buttons
   color: var(--mainWhite);
   border-color: transparent;
 }
+.btn-nprimary {
+  background: var(--primaryDarkColor);
+  color: var(--mainWhite);
+  border-color: transparent;
+}
+
 .btn-primary:hover {
   background: var(--primaryLightColor);
   color: var(--primaryColor);
+}
+
+.btn-nprimary:hover {
+  background: var(--primaryLightColor);
+  color: var(--primaryDarkColor);
 }
 .btn-block {
   width: 100%;
