@@ -107,7 +107,9 @@ const errorMessage = () => {
 };
 
 return (
-	<div className="form">
+	<section className='section search'>
+      <div className='search-form'>
+        <div className='form-control row'>
 	<div>
 		<h1>User Registration</h1>
 	</div>
@@ -131,11 +133,14 @@ return (
 		<label className="label">Password</label>
 		<input onChange={handlePassword} className="input"
 		value={password} type="password" required/>
-
-		<button onClick={handleSubmit} className="btn" type="submit">
+        <br></br>
+		<br></br>
+		<button  className='btn btn-primary btn-details' onClick={handleSubmit}  type="submit">
 		Submit
 		</button>
 	</form>
 	</div>
+	</div>
+	</section>
 );
 }

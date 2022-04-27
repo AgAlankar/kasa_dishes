@@ -26,6 +26,7 @@ export default function Navbar() {
               <Link to='/AdminDash'>Dashboard</Link>
             ) : (
               <div>
+                <Link to='/UserReg'>Register</Link>
                 <Link to='/login'>Login</Link>
                 <Link to='/adminlogin'>Admin Login</Link>
               </div>

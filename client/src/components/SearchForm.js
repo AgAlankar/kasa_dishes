@@ -235,14 +235,15 @@ export default function SearchForm() {
                 ref={carbVal}
               />
                   
-            <label htmlFor='ingr'>Ingredients</label>
+            <label htmlFor='ingr'>Filter by Ingredients</label>
             <Select
               ref={ingrVal}
               name="ingr"
               options={ingrs}
               isMulti
             />
-            <button onClick={searchDish}>Apply Filters</button>
+            <br></br>
+            <button className='btn btn-primary btn-details' onClick={searchDish}>Apply Filters</button>
             </div>
           )}
         </div>
