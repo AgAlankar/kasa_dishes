@@ -6,17 +6,30 @@ export default function SingleDish() {
   const { id } = useParams()
   const [loading, setLoading] = React.useState(false)
   const [dish, setDish] = React.useState(null)
+  const [ingredient, setIngredient] = React.useState([])
 
   React.useEffect(() => {
     setLoading(true)
     async function getDish() {
       try {
         const response = await fetch(`http://localhost:8080/api/dishes/${id}`)
+
+        const options = {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8',
+          },
+        }
+        const response2 = await fetch(`http://localhost:8080/api/dishes/ingredients/${id}`, options)
+        const data2 = await response2.json()
+        console.log(data2)
         const data = await response.json()
         console.log(data)
         const food = data
+
         if (food) {
           const {
+            FID:fid,
             dname: name,
             ImageURL: image,
             Cuisine: info,
@@ -39,6 +52,7 @@ export default function SingleDish() {
           //   Ingredient5,
           // ]
           const newDish = {
+            fid,
             name,
             image,
             info,
@@ -57,6 +71,7 @@ export default function SingleDish() {
           }
           console.log(newDish)
           setDish(newDish)
+          setIngredient(data2)
         } else {
           setDish(null)
         }
@@ -66,6 +81,34 @@ export default function SingleDish() {
       setLoading(false)
     }
     getDish()
+    // async function getIngredient() {
+    //   try {
+    //     // const optbody = {
+    //     //   dish,
+    //     // }
+    //     const options = {
+    //       method: 'GET',
+    //       headers: {
+    //         'Content-Type': 'application/json;charset=utf-8',
+    //       },
+    //       // body: JSON.stringify(optbody),
+    //     }
+    //     const{fid}=dish
+    //     const response = await fetch(`http://localhost:8080/api/dishes/ingredients/${fid}`, options)
+    //     const data = await response.json()
+    //     console.log(data)
+    //     const newingredient = data
+    //     if (newingredient) {
+    //       console.log(newingredient);
+    //       setIngredient(newingredient);
+    //     } else {
+    //       setIngredient(null);
+    //     }
+    //   } catch(error){
+    //     console.log(error);
+    //   }
+    // }
+    // getIngredient();
   }, [id])
   if (loading) {
     return <Loading />
@@ -87,9 +130,9 @@ export default function SingleDish() {
       fats,
       proteins,
       carbs,
-      instructions,
-      ingredients,
     } = dish
+   
+ 
     return (
       <section className='section dish-section'>
         <Link to='/' className='btn btn-primary'>
@@ -136,15 +179,11 @@ export default function SingleDish() {
             <p>
               <span className='food-data'>Views :</span> {views}
             </p>
-            {/* <p>
-              <span className='food-data'>instructons :</span> {instructions}
-            </p>
             <p>
+              
               <span className='food-data'>ingredients :</span>
-              {ingredients.map((item, index) => {
-                return item ? <span key={index}> {item}</span> : null
-              })}
-            </p> */}
+              {ingredient.map(x => x.iname).join(", ")}
+            </p>
           </div>
         </div>
       </section>
