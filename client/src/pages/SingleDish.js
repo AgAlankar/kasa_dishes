@@ -251,7 +251,7 @@ export default function SingleDish() {
             </p>
             <p>
               <span className='food-data'>Restrictions :</span>
-              {ingredient.map(x => x.restrictions).filter(x=>x!==null).join(", ")}
+              {ingredient.map(x => x.restrictions).filter((val,ind,self)=>val!=null&&self.indexOf(val)===ind).join(", ")}
             </p>
           </div>
         </div>
