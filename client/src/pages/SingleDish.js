@@ -236,7 +236,7 @@ export default function SingleDish() {
               <span className='food-data'>Carbs :</span> {carbs}
             </p>
             <p>
-              <span className='food-data'>Recipe :</span> <a className='food-dataa' href={`${recipeurl}`} >{recipeurl}</a>
+              <span className='food-data'>Recipe :</span> <a className='food-dataa' onClick={()=> window.open(`${recipeurl}`, "_blank")} >{recipeurl}</a>
             </p>
             <p>
               <span className='food-data'>Views :</span> {views}
