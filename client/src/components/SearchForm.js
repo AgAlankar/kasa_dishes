@@ -181,17 +181,22 @@ export default function SearchForm() {
               <input type='text' name='prot' id='prot' ref={protVal} />
               <br></br>
               <label htmlFor='carb'>Filter by max carb value</label>
-              <input type='text' name='carb' id='carb' ref={carbVal} />
-
-              <label htmlFor='ingr'>Ingredients</label>
-              <Select ref={ingrVal} name='ingr' options={ingrs} isMulti />
-              <br></br>
-              <button
-                className='btn btn-primary btn-details'
-                onClick={searchDish}
-              >
-                Apply Filters
-              </button>
+              <input
+                type='text'
+                name='carb'
+                id='carb'
+                ref={carbVal}
+              />
+                  
+            <label htmlFor='ingr'>Filter by Ingredients</label>
+            <Select
+              ref={ingrVal}
+              name="ingr"
+              options={ingrs}
+              isMulti
+            />
+            <br></br>
+            <button className='btn btn-primary btn-details' onClick={searchDish}>Apply Filters</button>
             </div>
           )}
         </div>

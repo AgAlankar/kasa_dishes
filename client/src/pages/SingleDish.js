@@ -194,11 +194,11 @@ export default function SingleDish() {
         <h2 className='section-title'>{name} {fav===0? '☆' : fav===1? '⭐' : ''}</h2>
         {
           fav===-1? 
-          <span>Login to add to favourites</span>
+          <span classname='food-data'>Login to add to favourites</span>
           : fav ===0?
-          <span><button onClick={handleFav}>Favourite</button></span>
+          <span><button className='btn btn-primary btn-details' onClick={handleFav}>Favourite</button></span>
           :
-          <span><button onClick={handleFav}>Unfavourite</button></span>
+          <span><button className='btn btn-primary btn-details'onClick={handleFav}>Unfavourite</button></span>
         }
         <br></br><br></br>
         <div className='food'>

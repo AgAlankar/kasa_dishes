@@ -8,12 +8,12 @@ class Ingredients{
     }
     static create(newIngredient, result){
         newIngredient.IName = `"${newIngredient.IName}"`;
-        newIngredient.restrictions = `"${newIngredient.restrictions}"`;
+        newIngredient.restrictions = newIngredient.restrictions? `"${newIngredient.restrictions}"` : null;
         let Query = "";
         console.log(newIngredient.restrictions);
-        if(newIngredient.restrictions == "undefined"){
-            Query = `INSERT INTO ingredients(IName, restrictions) VALUES 
-                (${newIngredient.IName}, NULL)`;
+        if(newIngredient.restrictions == null){
+            Query = `INSERT INTO ingredients(IName) VALUES 
+                (${newIngredient.IName})`;
         } else {
             Query = `INSERT INTO ingredients(IName, restrictions) VALUES
                 (${newIngredient.IName}, ${newIngredient.restrictions})`;
