@@ -145,6 +145,23 @@ function searchByIngredients(req, res) {
     });
 }
 
+function getIngredients(req, res){
+    const FID = req.params.id;
+    Dish.getIngredients(FID, (err, data) => {
+        if (err) {
+            if (err.kind === "not_found") {
+                res.status(404).send({
+                message: `Not found any dish with these ingredients`,
+                });
+            } else {
+                res.status(500).send({
+                message: "Error retrieving dishes with these ingredients" + req.params.id,
+                });
+            }
+        } else res.send(data);
+    })
+}
+
 module.exports = {
     create,
     findAll,
@@ -154,5 +171,6 @@ module.exports = {
     update,
     del,
     delAll,
-    searchByIngredients
+    searchByIngredients,
+    getIngredients
 };

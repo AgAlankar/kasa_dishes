@@ -235,6 +235,25 @@ class Dish {
             result({kind : "not_found" }, null); 
         });
     }
+
+    static getIngredients(FID, result){
+        let query = `SELECT i.iname, i.iid from madeof m, ingredients i WHERE m.fid = ${FID} AND m.iid = i.iid`;
+        console.log(query);
+        sql.query(query, (err, res) => {
+            if(err){
+                console.log("error: ", err);
+                result(null, err);
+                return;
+            }
+            if (res.length) {
+                console.log("found ingredients: \n", res);
+                result(null, res);
+                return;
+            }
+            console.log("No dish found with these ingredients");
+            result({kind : "not_found" }, null);
+        })
+    }
 }
 
 module.exports = Dish;

@@ -11,6 +11,8 @@ function routes(app){
     router.get("/veg", dishes.findAllVeg);
     // Retrieve using ingredients
     router.get("/find", dishes.searchByIngredients);
+    //Retrieve ingredients of a specific dish
+    router.get("/ingredients/:id", dishes.getIngredients);
     // Retrieve a single Dish with id
     router.get("/:id", dishes.findOne);
     // Update a Dish with id

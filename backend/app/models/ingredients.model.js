@@ -9,9 +9,15 @@ class Ingredients{
     static create(newIngredient, result){
         newIngredient.IName = `"${newIngredient.IName}"`;
         newIngredient.restrictions = `"${newIngredient.restrictions}"`;
-
-        let Query = `INSERT INTO ingredients(IName, restrictions) VALUES
-            (${newIngredient.IName}, ${newIngredient.restrictions})`;
+        let Query = "";
+        console.log(newIngredient.restrictions);
+        if(newIngredient.restrictions == "undefined"){
+            Query = `INSERT INTO ingredients(IName, restrictions) VALUES 
+                (${newIngredient.IName}, NULL)`;
+        } else {
+            Query = `INSERT INTO ingredients(IName, restrictions) VALUES
+                (${newIngredient.IName}, ${newIngredient.restrictions})`;
+        }
         console.log(Query);
         sql.query(Query, (err, res) => {
             if(err) {
