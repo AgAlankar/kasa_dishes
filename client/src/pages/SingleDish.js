@@ -34,7 +34,8 @@ export default function SingleDish() {
         const response3 = await fetch(`http://localhost:8080/api/dishes/equipments/${id}`, options)
         const data3 = await response3.json()
         // console.log(data3)
-      
+        // const response4 =await fetch(`http://localhost:8080/api/dishes/equipments/${id}`);
+
         if (food) {
           const {
             FID:fid,
@@ -247,6 +248,10 @@ export default function SingleDish() {
             <p>
               <span className='food-data'>equipments :</span>
               {equipment.map(x => x.ename).join(", ")}
+            </p>
+            <p>
+              <span className='food-data'>Restrictions :</span>
+              {ingredient.map(x => x.restrictions).join(", ")}
             </p>
           </div>
         </div>

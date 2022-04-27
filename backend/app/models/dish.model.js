@@ -237,7 +237,7 @@ class Dish {
     }
 
     static getIngredients(FID, result){
-        let query = `SELECT i.iname, i.iid from madeof m, ingredients i WHERE m.fid = ${FID} AND m.iid = i.iid`;
+        let query = `SELECT i.iname, i.iid,i.restrictions from madeof m, ingredients i WHERE m.fid = ${FID} AND m.iid = i.iid`;
         console.log(query);
         sql.query(query, (err, res) => {
             if(err){
