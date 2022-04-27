@@ -35,14 +35,21 @@ export default function ViewReqs() {
     <section className='section search'>
       <form className='search-form'>
         <div className='form-control row'>
-          <h1>View Requests</h1>
+        <label htmlFor='name'>VIEW A DISH</label>
           {reqList.map((item) => (
-            <div key={item.RID}>
-              <p>{item.RName}</p>
-              <p>{item.recipieurl}</p>
+            <React.Fragment>
+            <div style={{background:'#f0f0f0'}} key={item.RID}>
+              <p>
+              <span >name :</span> {item.RName}
+            </p>
+
+              <p>
+              <span>Recipe :</span> <a className='food-dataa' href={`https://${item.recipieurl}`} >{item.recipieurl}</a>
+            </p>
+
 
               <button
-                className='btn btn-primary btn-details'
+                className='btn btn-nprimary btn-details'
                 onClick={() => {
                   delReq(item.RID)
                 }}
@@ -50,6 +57,8 @@ export default function ViewReqs() {
                 Delete
               </button>
             </div>
+            <br></br>
+            </React.Fragment>
           ))}
         </div>
       </form>

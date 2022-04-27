@@ -20,11 +20,13 @@ class MyForm extends React.Component {
       // We convert the React state to JSON and send it as the POST body
       body: JSON.stringify(this.state),
     }
+
     console.log(optbody)
     fetch('http://localhost:8080/api/ask', optbody).then(function (response) {
       console.log(response)
       return response.json()
-    })
+
+    }).then(()=>{window.location.reload();})
 
     event.preventDefault()
   }

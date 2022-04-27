@@ -374,6 +374,13 @@ Dish
   border-radius: var(--mainBorderRadius);
   color: var(--primaryColor);
 }
+
+.food-dataa {
+  text-decoration: underline;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--mainBorderRadius);
+  color: blue;
+}
 .food-info {
   padding-top: 2rem;
 }
