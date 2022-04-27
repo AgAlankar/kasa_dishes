@@ -11,7 +11,7 @@ class MyForm extends React.Component {
   }
 
   handleSubmit = (event) => {
-    alert('A form was submitted: ' + this.state)
+    // alert('A form was submitted: ' + this.state)
     const optbody = {
       method: 'POST',
       headers: {

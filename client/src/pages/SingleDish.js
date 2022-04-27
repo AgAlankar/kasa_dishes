@@ -1,7 +1,7 @@
 import React from 'react'
 import Loading from '../components/Loading'
 import { useParams, Link } from 'react-router-dom'
-import { getUser } from '../sessHandler'
+import { getAdmin, getUser } from '../sessHandler'
 
 export default function SingleDish() {
   const { id } = useParams()
@@ -192,13 +192,14 @@ export default function SingleDish() {
           back home
         </Link>
         <h2 className='section-title'>{name} {fav===0? '☆' : fav===1? '⭐' : ''}</h2>
-        {
+        {!getAdmin() &&(
           fav===-1? 
           <span classname='food-data'>Login to add to favourites</span>
           : fav ===0?
           <span><button className='btn btn-primary btn-details' onClick={handleFav}>Favourite</button></span>
           :
           <span><button className='btn btn-primary btn-details'onClick={handleFav}>Unfavourite</button></span>
+        )
         }
         <br></br><br></br>
         <div className='food'>
