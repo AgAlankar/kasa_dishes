@@ -1,16 +1,16 @@
 import React, { Component, useState } from 'react'
-export default function ViewReqs() {
+export default function ViewDishes() {
   const [loaded, setLoaded] = useState(false)
-  const [reqList, setReqList] = useState([])
+  const [dishList, setDishList] = useState([])
 
   async function loadReqs() {
-    const response = await fetch('http://localhost:8080/api/ask/all')
+    const response = await fetch('http://localhost:8080/api/dishes')
     const data = await response.json()
     console.log(data)
-    setReqList(data)
+    setDishList(data)
   }
-  async function delReq(rid) {
-    const url = `http://localhost:8080/api/ask/${rid}`
+  async function delDish(fid) {
+    const url = `http://localhost:8080/api/dishes/${fid}`
     // console.log(optbody)
     const options = {
       method: 'DELETE',
@@ -29,16 +29,15 @@ export default function ViewReqs() {
     <section className='section search'>
       <form className='search-form'>
         <div className='form-control row'>
-          <h1>View Requests</h1>
-          {reqList.map((item) => (
-            <div key={item.RID}>
-              <p>{item.RName}</p>
-              <p>{item.recipieurl}</p>
+          <h1>Delete Dish</h1>
+          {dishList.map((item) => (
+            <div key={item.FID}>
+              {item.dname}
 
               <button
                 className='btn btn-primary btn-details'
                 onClick={() => {
-                  delReq(item.RID)
+                  delDish(item.FID)
                 }}
               >
                 Delete

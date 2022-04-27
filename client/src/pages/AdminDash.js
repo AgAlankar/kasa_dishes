@@ -14,7 +14,6 @@ export default function AdminDash(params) {
             style={{
               display: 'flex',
               justifyContent: 'space-between',
-              justifyContent: 'space-between',
               alignItems: 'center',
             }}
             className='btn btn-primary btn-details'
@@ -27,13 +26,24 @@ export default function AdminDash(params) {
             style={{
               display: 'flex',
               justifyContent: 'space-between',
-              justifyContent: 'space-between',
               alignItems: 'center',
             }}
             className='btn btn-primary btn-details'
             to='/ViewRequest'
           >
             View Dish Requests
+          </Link>
+          <br></br>
+          <Link
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+            className='btn btn-primary btn-details'
+            to='/DeleteDish'
+          >
+            Delete Dish
           </Link>
         </div>
       </form>
