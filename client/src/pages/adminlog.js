@@ -44,6 +44,10 @@ export default function Adminlog() {
       if (exists) {
         localStorage.setItem('sessAdmin', JSON.stringify(sessAdmin))
         setGo(true)
+        const u = window.localStorage.getItem('sessUser')
+        if (u) {
+          window.localStorage.removeItem('sessUser')
+        }
       } else {
         setOk(false)
       }

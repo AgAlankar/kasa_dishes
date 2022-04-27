@@ -69,6 +69,10 @@ export default function Login() {
         }
         localStorage.setItem('sessUser', JSON.stringify(sessUser))
         setGo(true)
+        const u = window.localStorage.getItem('sessAdmin')
+        if (u) {
+          window.localStorage.removeItem('sessAdmin')
+        }
       } else {
         setOk(false)
       }
