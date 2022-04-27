@@ -1,13 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import logo from '../logo.svg'
 import { getUser, logoutAll, getAdmin } from '../sessHandler'
+const logo = require('../Final 1.png')
+
 export default function Navbar() {
   return (
     <nav className='navbar'>
       <div className='nav-center'>
         <Link to='/'>
-          <img src={logo} alt='dish db logo' className='logo' />
+          <img src={logo} alt='dish db logo' className='logo' height={70}  />
         </Link>
         <ul className='nav-links'>
           <li>
