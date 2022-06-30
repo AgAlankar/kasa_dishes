@@ -16,8 +16,8 @@ class Equipments{
                 result(err, null);
                 return;
             }
-            // console.log("Equipment Created",res);
-            result(null, res);
+            // console.log("Equipment Created",res.rows);
+            result(null, res.rows);
         });    
     }
 
@@ -53,9 +53,9 @@ class Equipments{
                 result(err, null);
                 return;
             }
-            if (res.length) {
-                console.log("found Equipment: ", res[0]);
-                result(null, res[0]);
+            if (res.rows.length) {
+                console.log("found Equipment: ", res.rows[0]);
+                result(null, res.rows[0]);
                 return;
             }
             // not found Equipment with the EID
@@ -74,8 +74,8 @@ class Equipments{
                 result(null, err);
                 return;
             }
-            console.log("Equipments: ", res);
-            result(null, res);
+            console.log("Equipments: ", res.rows);
+            result(null, res.rows);
         });
     }
 
@@ -105,7 +105,7 @@ class Equipments{
                         return;
                     }
                     console.log(`deleted Equipments with ID: ${name}`);
-                    result(null, res);
+                    result(null, res.rows);
                 });
             }
         });
@@ -126,7 +126,7 @@ class Equipments{
                     }
                 });
                 console.log(`deleted ${res.affectedRows} equipment`);
-                result(null, res);
+                result(null, res.rows);
             }
         });
     }

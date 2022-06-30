@@ -1,4 +1,15 @@
 const sql = require("./db.js");
+// const dbConfig = require("../config/db.config.js");
+// const Pool = require("pg").Pool;
+// const connection = {
+//   host: dbConfig.PG_HOST,
+//   user: dbConfig.PG_USER,
+//   password: dbConfig.PG_PASSWORD,
+//   database: dbConfig.PG_DATABASE,
+//   port: dbConfig.PG_PORT
+// };
+// const sql = new Pool(connection);
+
 // constructor
 class Dish {
     static fillableFields = [
@@ -47,7 +58,7 @@ class Dish {
                 result(err, null);
                 return;
             }
-            if (!res.length) {
+            if (!res.rows.length) {
                 console.log("Not found dish: ");
                 result({ kind: "not_found" }, null);    
             }
@@ -61,7 +72,7 @@ class Dish {
                         return;
                     }
 
-                    result(null, res[0]);
+                    result(null, res.rows[0]);
                 });
             }
         });
@@ -78,8 +89,8 @@ class Dish {
                 result(null, err);
                 return;
             }
-            console.log("dish: ", res);
-            result(null, res);
+            console.log("dish: ", res.rows);
+            result(null, res.rows);
         });
     }
     static getFiltered(filters,result){
@@ -142,8 +153,8 @@ class Dish {
                 result(null, err);
                 return;
             }
-            // console.log("dish: ", res);
-            result(null, res);
+            // console.log("dish: ", res.rows);
+            result(null, res.rows);
         });
     }
 
@@ -154,8 +165,8 @@ class Dish {
                 result(null, err);
                 return;
             }
-            console.log("dish: ", res);
-            result(null, res);
+            console.log("dish: ", res.rows);
+            result(null, res.rows);
         });
     }
 
@@ -168,6 +179,7 @@ class Dish {
                     result(null, err);
                     return;
                 }
+                // console.log(res);
                 if (res.affectedRows === 0) {
                     // not found Dish with the fid
                     result({ kind: "not_found" }, null);
@@ -211,7 +223,7 @@ class Dish {
                                             return;
                                         }
                                         console.log("deleted dish with fid: ", fid);
-                                        result(null, res);
+                                        result(null, res.rows);
                                     });
                                 }
                             }
@@ -230,7 +242,7 @@ class Dish {
                 return;
             }
             console.log(`deleted ${res.affectedRows} dish`);
-            result(null, res);
+            result(null, res.rows);
         });
     }
     static searchByIngredients(ingr, result){
@@ -253,8 +265,8 @@ class Dish {
                 return;
             } 
             if (res.length) {
-                console.log("found dishes: \n", res);
-                result(null, res);
+                console.log("found dishes: \n", res.rows);
+                result(null, res.rows);
                 return;
             }
             console.log("No dish found with these ingredients");
@@ -271,9 +283,9 @@ class Dish {
                 result(null, err);
                 return;
             }
-            if (res.length) {
-                console.log("found ingredients: \n", res);
-                result(null, res);
+            if (res.rows.length) {
+                console.log("found ingredients: \n", res.rows);
+                result(null, res.rows);
                 return;
             }
             console.log("No dish found with these ingredients");
@@ -290,9 +302,9 @@ class Dish {
                 result(null, err);
                 return;
             }
-            if (res.length) {
-                console.log("found equipment: \n", res);
-                result(null, res);
+            if (res.rows.length) {
+                console.log("found equipment: \n", res.rows);
+                result(null, res.rows);
                 return;
             }
             console.log("No dish found with these equipment");

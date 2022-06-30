@@ -25,8 +25,8 @@ class Ingredients{
                 result(err, null);
                 return;
             }
-            console.log("Ingredient Created",res);
-            result(null, res);
+            console.log("Ingredient Created",res.rows);
+            result(null, res.rows);
         });    
     }
 
@@ -62,9 +62,9 @@ class Ingredients{
                 result(err, null);
                 return;
             }
-            if (res.length) {
-                console.log("found ingredient: ", res[0]);
-                result(null, res[0]);
+            if (res.rows.length) {
+                console.log("found ingredient: ", res.rows[0]);
+                result(null, res.rows[0]);
                 return;
             }
             // not found ingredient with the iid
@@ -83,8 +83,8 @@ class Ingredients{
                 result(null, err);
                 return;
             }
-            console.log("ingredients: ", res);
-            result(null, res);
+            console.log("ingredients: ", res.rows);
+            result(null, res.rows);
         });
     }
 
@@ -114,7 +114,7 @@ class Ingredients{
                         return;
                     }
                     console.log(`deleted ingredient with ID: ${id}`);
-                    result(null, res);
+                    result(null, res.rows);
                 });
             }
         });
@@ -128,7 +128,7 @@ class Ingredients{
                 return;
             }
             console.log(`deleted ${res.affectedRows} ingredients`);
-            result(null, res);
+            result(null, res.rows);
         });
     }
 }
